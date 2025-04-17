@@ -16,11 +16,14 @@
 
 ## 📸 遊戲畫面
 
-![遊戲截圖](gameimg/1.png)
-![遊戲截圖](gameimg/2.png)
-![遊戲截圖](gameimg/3.png)
-![遊戲截圖](gameimg/4.png)
-![遊戲截圖](gameimg/5.png)
+<p align="center">
+  <img src="gameimg/1.png" width="600">
+  <img src="gameimg/2.png" width="600">
+  <img src="gameimg/3.png" width="600">
+  <img src="gameimg/4.png" width="600">
+  <img src="gameimg/5.png" width="600">
+</p>
+
 ---
 
 ## 🎮 遊玩方式
