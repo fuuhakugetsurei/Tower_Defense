@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tower_lightning_tower_projectile_0: 7488236181664933473
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tower_crossbow_projectile_0: 6121632091145085984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

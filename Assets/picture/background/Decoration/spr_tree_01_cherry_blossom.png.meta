@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tree_01_cherry_blossom_0: 5726080635912097200
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

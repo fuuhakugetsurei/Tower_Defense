@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tower_poison_wizard_projectile_0: -4221998829214510395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

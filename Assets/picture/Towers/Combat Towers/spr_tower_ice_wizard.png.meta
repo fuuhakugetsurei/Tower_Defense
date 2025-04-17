@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tower_ice_wizard_0: -1219768193615908275
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

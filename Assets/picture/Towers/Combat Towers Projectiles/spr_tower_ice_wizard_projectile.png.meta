@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_tower_ice_wizard_projectile_0: 4255731279939393707
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
