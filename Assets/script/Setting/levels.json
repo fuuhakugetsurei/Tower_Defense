@@ -1,0 +1,39 @@
+{
+    "levels": [
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 10}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 25}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 20},
+            {"enemyType": "ShieldEnemy", "count": 10}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 10},
+            {"enemyType": "ShieldEnemy", "count": 20}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 5},
+            {"enemyType": "ShieldEnemy", "count": 30}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 10},
+            {"enemyType": "ShieldEnemy", "count": 20},
+            {"enemyType": "SpeedUpEnemy", "count": 2}
+        ],
+        [
+            {"enemyType": "ShieldEnemy", "count": 30},
+            {"enemyType": "SpeedUpEnemy", "count": 5}
+        ],
+        [
+            {"enemyType": "ShieldEnemy", "count": 40},
+            {"enemyType": "SpeedUpEnemy", "count": 10}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 60},
+            {"enemyType": "SpeedUpEnemy", "count": 8}
+        ]
+    ]
+}
