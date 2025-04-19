@@ -6,8 +6,7 @@ public class CoinManager : MonoBehaviour
     public static CoinManager Instance { get; private set;}
 
     public GameSettings gameSettings;  // 引用 GameSettings
-    public TMP_Text goldText;                 // 顯示金幣的 UI Text
-
+    public TMP_Text goldText;          // 顯示金幣的 UI Text
     private int gold;
 
     void Awake()
@@ -50,9 +49,22 @@ public class CoinManager : MonoBehaviour
     {
         if (goldText != null)
         {
-            goldText.text = "coin: " + gold.ToString();
+            switch (gold)
+            {
+                case >= 1000000000:
+                    goldText.text = "coin: " + (gold / 1000000000f).ToString("F1") + "B";;
+                    break;
+                case >= 1000000:
+                    goldText.text = "coin: " + (gold / 1000000f).ToString("F1") + "M";;
+                    break;
+                case >= 1000:
+                    goldText.text = "coin: " + (gold / 1000f).ToString("F1") + "K";;
+                    break;
+                default:
+                    goldText.text = "coin: " + gold.ToString("F0");;
+                    break;
+            }
             GameDataManager.Instance.gold = gold;
-
         }
     }
 

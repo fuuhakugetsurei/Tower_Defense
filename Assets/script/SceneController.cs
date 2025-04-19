@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class SceneController : MonoBehaviour
 {
     private string currentActiveScene; // 記錄當前顯示的場景
     private WorkHouseGameManager workHouseGameManager;
     private GameManager gameManager;
+
     void Start()
     {
         // 初始化時加載場景 A 和 B
@@ -31,9 +33,9 @@ public class SceneController : MonoBehaviour
     {
         if (gameManager.isUIShowing) return;
         if (targetSceneName == currentActiveScene) return;
-        if (targetSceneName == "WorkHouse") Castle.Instance.Hide(); 
-        if (targetSceneName == "SampleScene") Castle.Instance.Show(); 
-    
+        if (targetSceneName == "WorkHouse") Castle.Instance.Hide();
+        if (targetSceneName == "SampleScene") Castle.Instance.Show();
+
         // 隱藏當前場景
         SetSceneActive(currentActiveScene, false);
 
@@ -53,7 +55,11 @@ public class SceneController : MonoBehaviour
             // 遍歷場景中的所有根物件
             foreach (GameObject rootObject in scene.GetRootGameObjects())
             {
-                rootObject.SetActive(isActive);
+                // 排除 GlobalEventSystem，防止被禁用
+                if (rootObject.name != "GlobalEventSystem")
+                {
+                    rootObject.SetActive(isActive);
+                }
             }
 
             if (isActive && sceneName == "WorkHouse")
@@ -62,9 +68,16 @@ public class SceneController : MonoBehaviour
             }
         }
     }
+
     private void UpdateSceneBUI(Scene scene)
     {
         workHouseGameManager = FindFirstObjectByType<WorkHouseGameManager>();
+        if (workHouseGameManager == null)
+        {
+            Debug.LogError("WorkHouseGameManager not found in scene: " + scene.name);
+            return;
+        }
+        Debug.Log("Updating UI for WorkHouse");
         workHouseGameManager.UpdateUI();
     }
 
@@ -78,5 +91,4 @@ public class SceneController : MonoBehaviour
         }
         SetSceneActive(sceneName, isActive);
     }
-   
 }

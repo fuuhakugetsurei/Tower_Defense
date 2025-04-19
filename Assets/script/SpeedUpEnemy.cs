@@ -11,19 +11,23 @@ public class SpeedBoostEnemy : BaseEnemy
 
     protected override void Update()
     {
-        if (!isPaused)
-        {
-            base.Move(); // 只在沒暫停時移動
-        }
-
-        UpdateHealthBarPosition();
-
+        // 處理速度提升計時
         speedBoostTimer += Time.deltaTime;
         if (speedBoostTimer >= speedBoostInterval)
         {
             StartCoroutine(BoostSpeedAndPause());
             speedBoostTimer = 0f;
         }
+
+        // 根據暫停狀態決定是否移動
+        if (!isPaused)
+        {
+            base.Move(); // 只在沒暫停時移動
+        }
+
+        // 更新血條位置和值（與 BaseEnemy 一致）
+        UpdateHealthBarPosition();
+        UpdateHealthBar(); // 新增：確保血條值平滑更新
     }
 
     private IEnumerator BoostSpeedAndPause()

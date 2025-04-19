@@ -21,6 +21,9 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool isInitialized = false;
     protected Castle castle;
     protected Camera mainCam;  // 快取主攝影機
+    private float targetHealth; // 新增：追蹤血條的目標值
+    private float displayedHealth; // 新增：當前顯示的血條值
+    private Coroutine healthBarCoroutine; // 新增：追蹤當前血條協程
 
     protected virtual void Start()
     {
@@ -30,6 +33,8 @@ public abstract class BaseEnemy : MonoBehaviour
         coinManager = FindFirstObjectByType<CoinManager>();
         castle = FindFirstObjectByType<Castle>();
         currentHealth = maxHealth;
+        targetHealth = maxHealth; // 初始化目標血量
+        displayedHealth = maxHealth; // 初始化顯示血量
 
         GameObject canvasObj = GameObject.Find("HealthBarsCanvas");
         if (canvasObj != null)
@@ -62,6 +67,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         Move();
         UpdateHealthBarPosition();
+        UpdateHealthBar(); // 新增：每幀平滑更新血條
     }
 
     public void SetWaypoints(Transform[] wp)
@@ -91,32 +97,29 @@ public abstract class BaseEnemy : MonoBehaviour
         if (!isInitialized) return;
 
         currentHealth -= damage;
+        targetHealth = currentHealth; // 更新目標血量
         if (currentHealth <= 0)
         {
             Die();
         }
-        if (healthBar != null)
-        {
-            StartCoroutine(UpdateHealthBar());
-        }
+        // 移除協程啟動，改由 Update 處理平滑更新
     }
 
-    protected virtual IEnumerator UpdateHealthBar()
+    protected virtual void UpdateHealthBar()
     {
-        if (healthBar == null) yield break;
+        if (healthBar == null) return;
 
-        float startValue = healthBar.value;
-        float endValue = currentHealth;
-        float duration = 0.5f;
-        float elapsed = 0f;
+        // 平滑插值血條值
+        float lerpSpeed = 10f; // 控制變化速度（越大越快，相當於 0.1 秒完成）
+        displayedHealth = Mathf.Lerp(displayedHealth, targetHealth, lerpSpeed * Time.deltaTime);
+        healthBar.value = displayedHealth;
 
-        while (elapsed < duration)
+        // 如果血量已達目標值，確保精確
+        if (Mathf.Abs(displayedHealth - targetHealth) < 0.01f)
         {
-            elapsed += Time.deltaTime;
-            healthBar.value = Mathf.Lerp(startValue, endValue, elapsed / duration);
-            yield return null;
+            displayedHealth = targetHealth;
+            healthBar.value = targetHealth;
         }
-        healthBar.value = endValue;
     }
 
     protected virtual void UpdateHealthBarPosition()
@@ -148,4 +151,6 @@ public abstract class BaseEnemy : MonoBehaviour
             Destroy(healthBar.gameObject);
         }
     }
+
+    public float GetCurrentHealth() => currentHealth;
 }

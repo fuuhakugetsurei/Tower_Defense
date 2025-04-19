@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class GoldTower : MonoBehaviour
 {
-    public int GoldPerSecond { get; private set; } = 5; // 公開屬性
+    public int GoldPerSecond { get; private set; } = 1; // 公開屬性
     private LuckyManager luckyManager;
     private WorkHouseGameManager workHouseGameManager;
     private int Price = 10;
@@ -49,14 +49,14 @@ public class GoldTower : MonoBehaviour
             level++;
             if (isLucky)
             {
-                GoldPerSecond += 10;
+                GoldPerSecond += 1;
                 luckyManager.SpendLucky(3);
                 workHouseGameManager.UpdateUI();
                 UpdatePrice();
             }
             else
             {
-                GoldPerSecond += 5;
+                GoldPerSecond += 2;
                 luckyManager.AddLucky(5);
                 workHouseGameManager.UpdateUI();
                 UpdatePrice();
@@ -72,7 +72,7 @@ public class GoldTower : MonoBehaviour
 
     private void UpdatePrice()
     {
-        Price += 5;
+        Price += 10 * (level-1);
     }
     public int GetPrice() => Price;
     public int GetLevel() => level;

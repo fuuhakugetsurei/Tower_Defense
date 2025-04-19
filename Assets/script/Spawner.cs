@@ -143,6 +143,7 @@ public class Spawner : MonoBehaviour
     {
         Debug.Log("第 " + gameSettings.currentLevel + " 關完成！");
         isSpawning = false;
+        gameManager.isUIShowing = false;
         if (startButton != null)
         {
             if (gameSettings.currentLevel < gameSettings.enemiesPerLevel.Count)
@@ -171,6 +172,7 @@ public class Spawner : MonoBehaviour
     }
     public void ResetLevel()
     {
+        gameManager.isUIShowing = false;
         isSpawning = false;
         timer = 0f;
         spawnList.Clear();

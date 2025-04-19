@@ -55,7 +55,7 @@ public class WorkHouseTowerUIManager : MonoBehaviour
             upgradePrice = currentTower.GetPrice();
             PriceText.text = "Price: " + upgradePrice + "$";
             infoText.text = $"LV: {currentTower.GetLevel()}\n" + 
-                            $"GoldPerSecond: {currentTower.GoldPerSecond}";
+                            $"GoldPerSecond: {(float)currentTower.GoldPerSecond / 2}";
         }
         if (currentTower.GetLevel() >= currentTower.GetMaxLevel())
         {

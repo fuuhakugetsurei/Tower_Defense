@@ -1,10 +1,12 @@
 using UnityEngine;
+using System;
 
 public class Tower1Bullet : MonoBehaviour
 {
     public float speed = 5f;
-    public float damage = 10f;
+    public float damage = 10f; // 由塔傳遞的傷害值
     private GameObject target;
+    public Action onHitOrDestroy; // 回調事件，通知塔子彈命中或銷毀
 
     public void SetTarget(GameObject targetEnemy)
     {
@@ -16,6 +18,7 @@ public class Tower1Bullet : MonoBehaviour
     {
         if (target == null)
         {
+            onHitOrDestroy?.Invoke(); // 目標消失時通知塔
             Destroy(gameObject);
             return;
         }
@@ -27,6 +30,7 @@ public class Tower1Bullet : MonoBehaviour
         Vector3 direction = (target.transform.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
 
+        // 如果接近目標，執行命中
         if (Vector2.Distance(transform.position, target.transform.position) < 0.2f)
         {
             HitTarget();
@@ -45,21 +49,14 @@ public class Tower1Bullet : MonoBehaviour
 
     private void HitTarget()
     {
-        Enemy enemyScript = target.GetComponent<Enemy>();
-        SpeedBoostEnemy specialEnemyScript = target.GetComponent<SpeedBoostEnemy>();
-
-        if (enemyScript != null)
+        BaseEnemy enemy = target.GetComponent<BaseEnemy>();
+        if (enemy != null && enemy.GetCurrentHealth() > 0)
         {
-            enemyScript.TakeDamage(damage);
-            Debug.Log($"{gameObject.name} 命中 {target.name}，造成 {damage} 傷害");
+            enemy.TakeDamage(damage);
+            Debug.Log($"{gameObject.name} 命中 {target.name}，造成 {damage} 傷害，剩餘血量: {enemy.GetCurrentHealth()}");
         }
-        else if (specialEnemyScript != null)
-        {
-            specialEnemyScript.TakeDamage(damage);
-            Debug.Log($"{gameObject.name} 命中 {target.name}，造成 {damage} 傷害");
-        }
-
-        Destroy(gameObject);
+        onHitOrDestroy?.Invoke(); // 通知塔子彈已命中
+        Destroy(gameObject); // 命中後銷毀子彈
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -68,5 +65,10 @@ public class Tower1Bullet : MonoBehaviour
         {
             HitTarget();
         }
+    }
+
+    void OnDestroy()
+    {
+        onHitOrDestroy?.Invoke(); // 確保銷毀時通知塔
     }
 }

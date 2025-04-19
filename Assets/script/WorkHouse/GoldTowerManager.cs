@@ -37,7 +37,7 @@ public class GoldTowerManager : MonoBehaviour
         if (spawner != null && spawner.IsSpawning())
         {
             timer += Time.deltaTime;
-            if (timer >= 1f)
+            if (timer >= 2f)
             {
                 foreach (var tower in towers)
                 {
@@ -57,7 +57,7 @@ public class GoldTowerManager : MonoBehaviour
                         }
                     }
                 }
-                timer -= 1f;
+                timer -= 2f;
             }
         }
     }

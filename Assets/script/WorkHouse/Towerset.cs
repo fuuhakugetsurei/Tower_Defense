@@ -70,7 +70,7 @@ public class TowerSet : MonoBehaviour
                 bool isLucky = luckyManager.RollLucky();
                 if (isLucky)
                 {
-                    int bonusMultiplier = 5; 
+                    int bonusMultiplier = 1; 
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
                     luckyManager.SpendLucky(3);
                 }

@@ -14,7 +14,7 @@ public class WorkHouseGameManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;    
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
     void Start()
@@ -43,7 +43,21 @@ public class WorkHouseGameManager : MonoBehaviour
     }
     public void UpdateUI()
     {
-        goldText.text = "coin: " + GameDataManager.Instance.gold.ToString();
+        switch (GameDataManager.Instance.gold)
+        {
+            case >= 1000000000:
+                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000000000f).ToString("F1") + "B"; ;
+                break;
+            case >= 1000000:
+                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000000f).ToString("F1") + "M"; ;
+                break;
+            case >= 1000:
+                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000f).ToString("F1") + "K"; ;
+                break;
+            default:
+                goldText.text = "coin: " + GameDataManager.Instance.gold.ToString("F0"); ;
+                break;
+        }
         luckyText.text = "luckypoint: " + GameDataManager.Instance.lucky.ToString();
         levelText.text = "Level: " + GameDataManager.Instance.level.ToString();
     }
