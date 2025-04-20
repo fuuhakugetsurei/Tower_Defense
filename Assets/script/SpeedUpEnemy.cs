@@ -8,12 +8,13 @@ public class SpeedBoostEnemy : BaseEnemy
     private float speedBoostTimer = 0f;
     private float speedBoostPercent = 0.5f;
     private bool isPaused = false;
+    public int magicPerLife = 3;//每個生命最多施幾次魔法
 
     protected override void Update()
     {
         // 處理速度提升計時
         speedBoostTimer += Time.deltaTime;
-        if (speedBoostTimer >= speedBoostInterval)
+        if (speedBoostTimer >= speedBoostInterval && magicPerLife > 0)
         {
             StartCoroutine(BoostSpeedAndPause());
             speedBoostTimer = 0f;
@@ -44,7 +45,7 @@ public class SpeedBoostEnemy : BaseEnemy
                 enemy.speed *= (1f + speedBoostPercent);
             }
         }
-
+        magicPerLife--;
         yield return new WaitForSeconds(1f);
         isPaused = false;
     }
