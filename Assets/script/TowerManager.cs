@@ -5,23 +5,18 @@ public class TowerManager : MonoBehaviour
 {
     public GameObject purchasePanel;
     public GameObject tower1Prefab;
-    public GameObject tower2Prefab;
-    public Button tower1Button;
-    public Button tower2Button;
     public Button cancelButton;
 
-    [SerializeField]
-    private int tower1Cost = 50;  // 塔1 的價格
-    [SerializeField]
-    private int tower2Cost = 100; // 塔2 的價格
+    public int tower1Cost = 50;  // 塔1 的價格
+
 
     private TowerPlacementPoint currentPlacementPoint;
     private CoinManager coinManager;
     private GameManager gameManager;
     void Start()
     {
-        gameManager = Object.FindFirstObjectByType<GameManager>();
-        coinManager = Object.FindFirstObjectByType<CoinManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
+        coinManager = FindFirstObjectByType<CoinManager>();
         if (coinManager == null)
         {
             Debug.LogError("場景中未找到 CoinManager！");
@@ -37,14 +32,13 @@ public class TowerManager : MonoBehaviour
             purchasePanel.SetActive(false);
         }
 
-        if (tower1Button == null || tower2Button == null || cancelButton == null)
+        if (cancelButton == null)
         {
             Debug.LogError("某個按鈕未設置！");
         }
         else
         {
-            tower1Button.onClick.AddListener(() => PurchaseTower(tower1Prefab, tower1Cost));
-            tower2Button.onClick.AddListener(() => PurchaseTower(tower2Prefab, tower2Cost));
+            //tower1Button.onClick.AddListener(() => PurchaseTower(tower1Prefab, tower1Cost));
             cancelButton.onClick.AddListener(CancelPurchase);
             Debug.Log("按鈕監聽器已設置");
         }
@@ -71,7 +65,7 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    private void PurchaseTower(GameObject towerPrefab, int cost)
+    public void PurchaseTower(GameObject towerPrefab, int cost)
     {
         if (currentPlacementPoint != null && coinManager != null)
         {
@@ -97,11 +91,5 @@ public class TowerManager : MonoBehaviour
         currentPlacementPoint = null;
         gameManager.isUIShowing = false;
         Debug.Log("取消購買");
-    }
-    public void BackToMain()
-    {
-        tower1Button.onClick.AddListener(() => PurchaseTower(tower1Prefab, tower1Cost));
-        tower2Button.onClick.AddListener(() => PurchaseTower(tower2Prefab, tower2Cost));
-        cancelButton.onClick.AddListener(CancelPurchase);
     }
 }

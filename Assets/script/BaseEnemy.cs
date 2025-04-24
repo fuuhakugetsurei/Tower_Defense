@@ -21,15 +21,12 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool isInitialized = false;
     protected Castle castle;
     protected Camera mainCam;  // 快取主攝影機
-    private float targetHealth; // 新增：追蹤血條的目標值
+    protected float targetHealth; // 新增：追蹤血條的目標值
     private float displayedHealth; // 新增：當前顯示的血條值
-    private Coroutine healthBarCoroutine; // 新增：追蹤當前血條協程
 
     protected virtual void Start()
     {
         mainCam = Camera.main;
-
-        maxHealth *= (float)Math.Pow(1.5f, gameSettings.currentLevel - 1);
         coinManager = FindFirstObjectByType<CoinManager>();
         castle = FindFirstObjectByType<Castle>();
         currentHealth = maxHealth;

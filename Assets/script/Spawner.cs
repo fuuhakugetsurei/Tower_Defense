@@ -124,6 +124,7 @@ public class Spawner : MonoBehaviour
         GameObject enemy = Instantiate(enemyConfig.enemyPrefab, transform.position, Quaternion.identity);
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         SpeedBoostEnemy speedBoostEnemyScript = enemy.GetComponent<SpeedBoostEnemy>();
+        Demon_boss demon_BossScript = enemy.GetComponent<Demon_boss>();
         if (enemyScript != null)
         {
             enemyScript.healthBarPrefab = healthBarPrefab;
@@ -133,6 +134,11 @@ public class Spawner : MonoBehaviour
         {
             speedBoostEnemyScript.healthBarPrefab = healthBarPrefab;
             speedBoostEnemyScript.SetWaypoints(waypoints);
+        }
+        if (demon_BossScript != null)
+        {
+            demon_BossScript.healthBarPrefab = healthBarPrefab;
+            demon_BossScript.SetWaypoints(waypoints);
         }
 
         gameSettings.currentEnemyCount++;

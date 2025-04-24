@@ -34,6 +34,12 @@
         [
             {"enemyType": "OrdinaryEmeny", "count": 60},
             {"enemyType": "SpeedUpEnemy", "count": 8}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 15},
+            {"enemyType": "ShieldEnemy", "count": 10},
+            {"enemyType": "SpeedUpEnemy", "count": 10},
+            {"enemyType": "Demon_boss", "count": 1}
         ]
     ]
 }

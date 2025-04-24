@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public Button tenSpeedButton;
     public GameSettings gameSettings;
     public TextAsset levelConfigFile;
     public bool isUIShowing = false;
-
+    private int speed = 1;
+    private TMP_Text buttonText;
     [SerializeField]
     private List<GameObject> enemyPrefabs = new List<GameObject>();
     private Dictionary<string, GameObject> enemyPrefabMap = new Dictionary<string, GameObject>();
@@ -19,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        tenSpeedButton.onClick.AddListener(() => speedup());
+        buttonText = tenSpeedButton.GetComponentInChildren<TMP_Text>();
+        buttonText.text = "1x";
         if (gameSettings == null)
         {
             Debug.LogError("gameSettings 未正確設置！");
@@ -69,5 +75,25 @@ public class GameManager : MonoBehaviour
         CoinManager.Instance.setup();
         WorkHouseGameManager.Instance.Restart();
     }
-
+    private void speedup()
+    {
+        if (buttonText != null)
+        {
+            if (speed == 1)
+            {
+                speed = 10;
+                buttonText.text = "10x";
+            }
+            else
+            {
+                speed = 1;
+                buttonText.text = "1x";
+            }
+        }
+        else
+        {
+            Debug.LogError("tenSpeedButton is not assigned in the Inspector.");
+        }
+        Time.timeScale = speed;
+    }
 }

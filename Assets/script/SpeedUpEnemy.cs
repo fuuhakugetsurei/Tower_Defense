@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class SpeedBoostEnemy : BaseEnemy
 {
@@ -10,6 +11,11 @@ public class SpeedBoostEnemy : BaseEnemy
     private bool isPaused = false;
     public int magicPerLife = 3;//每個生命最多施幾次魔法
 
+    protected override void Start()
+    {
+        maxHealth *= (float)Math.Pow(1.5f, gameSettings.currentLevel - 3);
+        base.Start();
+    }
     protected override void Update()
     {
         // 處理速度提升計時
