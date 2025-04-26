@@ -160,7 +160,7 @@ public class Castle : MonoBehaviour
             return;
         }
 
-        Vector3 offset = Vector3.up * 2f; // 文字略高於血條
+        Vector3 offset = Vector3.up * 2.5f; // 文字略高於血條
         Vector2 screenPoint = mainCam.WorldToScreenPoint(transform.position + offset);
         RectTransform textRect = HealthValueText.GetComponent<RectTransform>();
 

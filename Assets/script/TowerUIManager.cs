@@ -83,6 +83,7 @@ public class TowerUIManager : MonoBehaviour
         }
         if (luckytimes > 0)
         {
+            image.gameObject.SetActive(true);
             image.sprite = sprites[0];
         }
         else if (luckytimes == 0)
@@ -91,6 +92,7 @@ public class TowerUIManager : MonoBehaviour
         }
         else
         {
+            image.gameObject.SetActive(true);
             image.sprite = sprites[1];
         }
     }
