@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,9 +7,9 @@ public class TowerManager : MonoBehaviour
     public GameObject purchasePanel;
     public GameObject tower1Prefab;
     public Button cancelButton;
-
+    public Button closeButton;
+    
     public int tower1Cost = 50;  // 塔1 的價格
-
 
     private TowerPlacementPoint currentPlacementPoint;
     private CoinManager coinManager;
@@ -40,23 +41,31 @@ public class TowerManager : MonoBehaviour
         {
             //tower1Button.onClick.AddListener(() => PurchaseTower(tower1Prefab, tower1Cost));
             cancelButton.onClick.AddListener(CancelPurchase);
+            closeButton.onClick.AddListener(CancelPurchase);
             Debug.Log("按鈕監聽器已設置");
         }
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && purchasePanel.activeInHierarchy == true)
+        {
+            CancelPurchase();
+        }
+    }
     public void ShowPurchaseUI(TowerPlacementPoint placementPoint)
     {
         if (gameManager.isUIShowing) 
         {
             return;
-        }else
+        }
+        else
         {
             gameManager.isUIShowing = true;
         }
         currentPlacementPoint = placementPoint;
         if (purchasePanel != null)
         {
-            purchasePanel.SetActive(true);
+            StartCoroutine(ShowUI());
             Debug.Log("顯示購買 UI");
         }
         else
@@ -73,6 +82,7 @@ public class TowerManager : MonoBehaviour
             {
                 currentPlacementPoint.PlaceTower(towerPrefab);
                 purchasePanel.SetActive(false);
+                closeButton.gameObject.SetActive(false);
                 currentPlacementPoint = null;
                 Debug.Log($"成功購買塔，花费 {cost} 金幣");
                 gameManager.isUIShowing = false;
@@ -84,10 +94,19 @@ public class TowerManager : MonoBehaviour
             }
         }
     }
-
+    private IEnumerator ShowUI()
+    {
+        purchasePanel.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        if (closeButton != null)
+        {
+            closeButton.gameObject.SetActive(true);
+        }
+    }
     private void CancelPurchase()
     {
         purchasePanel.SetActive(false);
+        closeButton.gameObject.SetActive(false);
         currentPlacementPoint = null;
         gameManager.isUIShowing = false;
         Debug.Log("取消購買");

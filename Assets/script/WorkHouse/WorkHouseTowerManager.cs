@@ -6,12 +6,9 @@ public class WorkHouseTowerManager : MonoBehaviour
 {
     public GameObject purchasePanel;
     public GameObject tower1Prefab;
-    public Button tower1Button;
     public Button cancelButton;
-    
-
-    [SerializeField]
-    private int tower1Cost = 30;  // 塔1 的價格
+    public Button closeButton;
+    public int tower1Cost = 30;  
 
     private TowerSet currentPlacementPoint;
     private CoinManager coinManager;
@@ -20,15 +17,20 @@ public class WorkHouseTowerManager : MonoBehaviour
     void Start()
     {
         // 查找 CoinManager
-        coinManager = Object.FindFirstObjectByType<CoinManager>();
+        coinManager = FindFirstObjectByType<CoinManager>();
         purchasePanel.SetActive(false);
-        tower1Button.onClick.AddListener(() => PurchaseTower(tower1Prefab, tower1Cost));
+        closeButton.onClick.AddListener(CancelPurchase);
         cancelButton.onClick.AddListener(CancelPurchase);
         Debug.Log("按鈕監聽器已設置");
         workHouseGameManager = FindFirstObjectByType<WorkHouseGameManager>();
-
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && purchasePanel.activeInHierarchy == true)
+        {
+            CancelPurchase();
+        }
+    }
     public void ShowPurchaseUI(TowerSet placementPoint)
     {
         if (workHouseGameManager.isUIShowing) return;
@@ -37,6 +39,7 @@ public class WorkHouseTowerManager : MonoBehaviour
         if (purchasePanel != null)
         {
             purchasePanel.SetActive(true);
+            closeButton.gameObject.SetActive(true);
             Debug.Log("顯示購買 UI");
         }
         else
@@ -45,7 +48,7 @@ public class WorkHouseTowerManager : MonoBehaviour
         }
     }
 
-    private void PurchaseTower(GameObject towerPrefab, int cost)
+    public void PurchaseTower(GameObject towerPrefab, int cost)
     {
         if (currentPlacementPoint != null && coinManager != null)
         {
@@ -53,6 +56,7 @@ public class WorkHouseTowerManager : MonoBehaviour
             {
                 currentPlacementPoint.PlaceTower(towerPrefab);
                 purchasePanel.SetActive(false);
+                closeButton.gameObject.SetActive(false);
                 currentPlacementPoint = null;
                 workHouseGameManager.UpdateUI();
                 workHouseGameManager.isUIShowing = false;
@@ -68,6 +72,7 @@ public class WorkHouseTowerManager : MonoBehaviour
     private void CancelPurchase()
     {
         purchasePanel.SetActive(false);
+        closeButton.gameObject.SetActive(false);
         currentPlacementPoint = null;
         Debug.Log("取消購買");
         workHouseGameManager.isUIShowing = false;

@@ -27,7 +27,6 @@ public class WorkHouseGameManager : MonoBehaviour
         }
 
         UpdateUI();
-
     }
     public void BackToMainScene()
     {
@@ -35,11 +34,6 @@ public class WorkHouseGameManager : MonoBehaviour
         {
             FindFirstObjectByType<SceneController>().SwitchScene("SampleScene");
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     public void UpdateUI()
     {

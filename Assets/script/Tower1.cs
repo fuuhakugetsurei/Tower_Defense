@@ -23,6 +23,8 @@ public class Tower1 : MonoBehaviour
     private int bulletsInFlight = 0; // 追蹤飛行中的子彈數
     private int bulletsFired = 0;    // 針對當前目標已發射的箭數
     private int requiredArrows = 0;  // 新增：當前目標所需的總箭數（初始計算）
+    
+    public int luckytimes  = 0; 
 
     void Update()
     {
@@ -155,12 +157,14 @@ public class Tower1 : MonoBehaviour
                 attackSpeed = Mathf.Round((attackSpeed + 0.5f) * 10f) / 10f;
                 damage += 5f;
                 luckyManager.SpendLucky(3);
+                luckytimes++;
             }
             else
             {
                 attackSpeed = Mathf.Round((attackSpeed + 0.3f) * 10f) / 10f;
                 damage += 3f;
                 luckyManager.AddLucky(5);
+                luckytimes--;
             }
             UpdatePrice();
             Debug.Log($"{gameObject.name} 升級為 Lv{level}，傷害: {damage}，攻速: {attackSpeed}，範圍: {attackRange}");

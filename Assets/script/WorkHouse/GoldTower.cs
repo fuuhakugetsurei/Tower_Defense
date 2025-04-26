@@ -9,6 +9,7 @@ public class GoldTower : MonoBehaviour
     private int Price = 10;
     private int level = 1;
     private int maxLevel = 20;
+    public int luckytimes = 0; 
 
     void Start()
     {
@@ -49,15 +50,17 @@ public class GoldTower : MonoBehaviour
             level++;
             if (isLucky)
             {
-                GoldPerSecond += 1;
+                GoldPerSecond += 2;
                 luckyManager.SpendLucky(3);
+                luckytimes++;
                 workHouseGameManager.UpdateUI();
                 UpdatePrice();
             }
             else
             {
-                GoldPerSecond += 2;
+                GoldPerSecond += 1;
                 luckyManager.AddLucky(5);
+                luckytimes--;
                 workHouseGameManager.UpdateUI();
                 UpdatePrice();
             }

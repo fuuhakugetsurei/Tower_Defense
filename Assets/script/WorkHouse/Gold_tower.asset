@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dd469db0ca9304c8554d03a6250236, type: 3}
+  m_Name: Gold_tower
+  m_EditorClassIdentifier: 
+  towerName: "\u91D1\u5E63\u5854"
+  maxlevel: 20
+  cost: 30
+  additionalAttributes:
+  - attributeName: "\u6BCF\u79D2\u751F\u7522\u6548\u7387"
+    value: 0.5~1/s

@@ -15,15 +15,14 @@ public class TowerPlacementPoint : MonoBehaviour
 
     void Start()
     {
-        luckyManager = Object.FindFirstObjectByType<LuckyManager>();
-        
-        towerManager = Object.FindFirstObjectByType<TowerManager>();
+        luckyManager = FindFirstObjectByType<LuckyManager>();
+        towerManager = FindFirstObjectByType<TowerManager>();
         if (towerManager == null)
         {
             Debug.LogError("場景中未找到 TowerManager！");
         }
     }
-
+    
     void OnMouseDown()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -85,6 +84,7 @@ public class TowerPlacementPoint : MonoBehaviour
                 {
                     float bonusMultiplier = 1.2f; // 加成倍率 20%
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
+                    towerScript.luckytimes++;
                     luckyManager.SpendLucky(3);
                     Debug.Log("幸運塔放置成功！攻擊力提升！");
                 }
@@ -93,6 +93,7 @@ public class TowerPlacementPoint : MonoBehaviour
                     float bonusMultiplier = 0.8f;
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
                     luckyManager.AddLucky(5);
+                    towerScript.luckytimes--;
                     Debug.Log("不是幸運塔");
                 }   
             }

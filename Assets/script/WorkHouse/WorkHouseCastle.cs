@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Net.Http.Headers;
+using System.Collections;
 
 public class WorkHouseCastle : MonoBehaviour
 {
@@ -9,7 +9,10 @@ public class WorkHouseCastle : MonoBehaviour
     public TMP_Text infoText;
     public Button upgradeButton;
     public TMP_Text PriceText;
+    public Button cancelButton;
     public Button closeButton;
+    public Button HealButton;
+    public TMP_Text HealPriceText;
 
     private Spawner spawner;
     private CoinManager coinManager;
@@ -20,16 +23,26 @@ public class WorkHouseCastle : MonoBehaviour
     {
         workHouseGameManager = FindFirstObjectByType<WorkHouseGameManager>();
         castle = FindFirstObjectByType<Castle>();
-        closeButton.onClick.AddListener(HideUI);
+        cancelButton.onClick.AddListener(HideUI);
         uiPanel.SetActive(false);
+        closeButton.onClick.AddListener(HideUI);
         upgradeButton.onClick.AddListener(OnUpgradeButtonClicked);
         coinManager = FindFirstObjectByType<CoinManager>();
         spawner = FindFirstObjectByType<Spawner>();
+        HealButton.onClick.AddListener(OnHealButtonClicked);
+        
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && uiPanel.activeInHierarchy == true)
+        {
+            HideUI();
+        }
+    }
     public void HideUI()
     {
         uiPanel.SetActive(false);
+        closeButton.gameObject.SetActive(false);    
         workHouseGameManager.isUIShowing = false;
     }
 
@@ -42,19 +55,29 @@ public class WorkHouseCastle : MonoBehaviour
             UpdateInfo();
         }
     }
+    private void OnHealButtonClicked()
+    {
+        if (coinManager.SpendGold(Castle.Instance.healPrice))
+        {
+            castle.Heal();
+            WorkHouseGameManager.Instance.UpdateUI();
+            UpdateInfo();
+        }
+    }
     private void OnMouseDown()
     {
         if (workHouseGameManager.isUIShowing) return;
         else workHouseGameManager.isUIShowing = true;
         if (spawner.IsSpawning() == false)
         {
-            uiPanel.SetActive(true);
+            StartCoroutine(ShowUI());
             UpdateInfo();
         }
     }
     private void UpdateInfo()
     {
         PriceText.text = "Price: " + Castle.Instance.upgradePrice + "$";
+        HealPriceText.text = "Price: " + Castle.Instance.healPrice + "$";
         infoText.text = $"LV: {Castle.Instance.level}\n" +
                         $"MaxHP: {Castle.Instance.maxHealth}";
 
@@ -69,4 +92,14 @@ public class WorkHouseCastle : MonoBehaviour
             PriceText.gameObject.SetActive(true);
         }
     }
+    private IEnumerator ShowUI()
+    {
+        uiPanel.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        if (closeButton != null)
+        {
+            closeButton.gameObject.SetActive(true);
+        }
+    }
+
 }

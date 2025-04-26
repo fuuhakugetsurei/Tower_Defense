@@ -14,8 +14,8 @@ public class TowerSet : MonoBehaviour
 
     void Start()
     {
-        luckyManager = Object.FindFirstObjectByType<LuckyManager>();
-        towerManager = Object.FindFirstObjectByType<WorkHouseTowerManager>();
+        luckyManager = FindFirstObjectByType<LuckyManager>();
+        towerManager = FindFirstObjectByType<WorkHouseTowerManager>();
         if (towerManager == null)
         {
             Debug.LogError("場景中未找到 TowerManager！");
@@ -28,7 +28,7 @@ public class TowerSet : MonoBehaviour
         {
             return;
         }
-        Spawner spawner = Object.FindFirstObjectByType<Spawner>();
+        Spawner spawner = FindFirstObjectByType<Spawner>();
         if (spawner != null && !spawner.IsSpawning() && !isOccupied)
         {
             if (towerManager != null)
@@ -72,10 +72,12 @@ public class TowerSet : MonoBehaviour
                 {
                     int bonusMultiplier = 1; 
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
+                    towerScript.luckytimes++;
                     luckyManager.SpendLucky(3);
                 }
                 else
                 {   
+                    towerScript.luckytimes--;
                     luckyManager.AddLucky(5);
                 }   
             }

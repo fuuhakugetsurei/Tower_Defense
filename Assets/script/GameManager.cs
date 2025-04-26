@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("遊戲初始化完成，關卡數：" + gameSettings.enemiesPerLevel.Count);
 
     }
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("退出遊戲");
+    }
     public void Restart()
     {
         Scene SampleScene = SceneManager.GetSceneByName("SampleScene");

@@ -9,6 +9,7 @@ public class Castle : MonoBehaviour
     public int maxLevel { get; private set; } = 20;
     public int upgradePrice { get; private set; } = 1000;
     public int maxHealth { get; private set; } = 100;
+    public int healPrice { get; private set; } = 500;
     private int currentHealth;
     private float targetHealth;
     private float displayedHealth;
@@ -21,13 +22,13 @@ public class Castle : MonoBehaviour
     private RectTransform castleHealthCanvasRect;
     private GameManager gameManager;
     private Camera mainCam;
-
+    
+    #region 初始化
     void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
     void Start()
     {
         mainCam = Camera.main;
@@ -102,18 +103,8 @@ public class Castle : MonoBehaviour
         UpdateHealthTextPosition(); // 更新文字位置
         UpdateHealthBar(); // 更新血條和文字值
     }
-
-    public void hurt(int damage)
-    {
-        currentHealth -= damage;
-        targetHealth = currentHealth;
-        if (currentHealth <= 0)
-        {
-            targetHealth = 0;
-            Gameover();
-        }
-    }
-
+    #endregion
+    #region 血條更新
     private void UpdateHealthBar()
     {
         if (healthBar == null) return;
@@ -169,7 +160,7 @@ public class Castle : MonoBehaviour
             return;
         }
 
-        Vector3 offset = Vector3.up * 2.5f; // 文字略高於血條
+        Vector3 offset = Vector3.up * 2f; // 文字略高於血條
         Vector2 screenPoint = mainCam.WorldToScreenPoint(transform.position + offset);
         RectTransform textRect = HealthValueText.GetComponent<RectTransform>();
 
@@ -202,6 +193,7 @@ public class Castle : MonoBehaviour
         // 使用 displayedHealth，與血條同步
         HealthValueText.text = $"{Mathf.RoundToInt(displayedHealth)} / {maxHealth}";
     }
+    #endregion
 
     public void Gameover()
     {
@@ -214,6 +206,21 @@ public class Castle : MonoBehaviour
         gameManager.Restart();
     }
 
+    public void Heal()
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += maxHealth / 5; // 每次治療 20% 最大血量 
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
+            targetHealth = currentHealth;
+            displayedHealth = currentHealth;
+            if (healthBar != null)
+                healthBar.value = currentHealth;
+            UpdateHealthText(); // 立即更新文字
+            Debug.Log($"城堡治療，當前血量: {currentHealth}");
+        }
+    }
     public void Upgrade()
     {
         if (level < maxLevel)
@@ -228,6 +235,17 @@ public class Castle : MonoBehaviour
                 healthBar.maxValue = maxHealth;
             UpdateHealthText(); // 立即更新文字
             Debug.Log($"城堡升級到 Lv{level}，最大血量: {maxHealth}");
+        }
+    }
+
+    public void hurt(int damage)
+    {
+        currentHealth -= damage;
+        targetHealth = currentHealth;
+        if (currentHealth <= 0)
+        {
+            targetHealth = 0;
+            Gameover();
         }
     }
 
