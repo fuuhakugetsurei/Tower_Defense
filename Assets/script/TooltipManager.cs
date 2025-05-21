@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System.Collections;
 
 public class TooltipManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class TooltipManager : MonoBehaviour
     public void ShowTooltip(string message)
     {
         // 終止所有動畫和計時器
-        CancelInvoke(nameof(HideTooltip));
+        StopAllCoroutines(); // 停止所有 Coroutine
         tooltipRect.DOKill();
         canvasGroup.DOKill();
 
@@ -46,41 +47,49 @@ public class TooltipManager : MonoBehaviour
         tooltipText.text = message;
         tooltipPanel.SetActive(true);
         isShowing = true;
-        isHiding = false; // 重置隱藏狀態
+        isHiding = false;
         canvasGroup.alpha = 1f;
         tooltipRect.localScale = Vector3.one;
-        tooltipRect.anchoredPosition = Vector2.zero; // 畫面正中央
+        tooltipRect.anchoredPosition = Vector2.zero;
 
-        // 強制更新文字佈局（可選，確保文字大小正確）
+        // 強制更新文字佈局
         tooltipText.ForceMeshUpdate();
 
-        // 啟動隱藏計時器
-        Invoke(nameof(HideTooltip), displayTime);
+        // 使用 Coroutine 控制隱藏（不受 Time.timeScale 影響）
+        StartCoroutine(HideTooltipAfterDelay(displayTime));
+    }
+
+    private IEnumerator HideTooltipAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay); // 使用 WaitForSecondsRealtime
+        HideTooltip();
     }
 
     public void HideTooltip()
+{
+    if (!isShowing || isHiding) // 防止重複或被新提示中斷
     {
-        if (!isShowing || isHiding) // 防止重複或被新提示中斷
-        {
-            return;
-        }
-
-        isHiding = true;
-        isShowing = false;
-
-        // 動畫：向上移動 + 淡出
-        float moveDistance = 50f; // 向上移動 50 單位
-        float animationDuration = 0.5f; // 動畫持續時間
-        Vector2 targetPos = tooltipRect.anchoredPosition + new Vector2(0, moveDistance);
-        canvasGroup.DOFade(0f, animationDuration).SetEase(Ease.InQuad);
-        tooltipRect.DOAnchorPos(targetPos, animationDuration).SetEase(Ease.InQuad).OnComplete(() =>
-        {
-            tooltipPanel.SetActive(false);
-            // 重置狀態以備下次使用
-            tooltipRect.anchoredPosition = Vector2.zero;
-            canvasGroup.alpha = 1f;
-            tooltipRect.localScale = Vector3.one;
-            isHiding = false; // 完成隱藏
-        });
+        return;
     }
+
+    isHiding = true;
+    isShowing = false;
+
+    // 動畫：向上移動 + 淡出
+    float moveDistance = 50f; // 向上移動 50 單位
+    float animationDuration = 0.5f; // 動畫持續時間
+    Vector2 targetPos = tooltipRect.anchoredPosition + new Vector2(0, moveDistance);
+    
+    // 使用 unscaledTime 確保動畫不受 Time.timeScale 影響
+    canvasGroup.DOFade(0f, animationDuration).SetEase(Ease.InQuad).SetUpdate(UpdateType.Normal, true);
+    tooltipRect.DOAnchorPos(targetPos, animationDuration).SetEase(Ease.InQuad).SetUpdate(UpdateType.Normal, true).OnComplete(() =>
+    {
+        tooltipPanel.SetActive(false);
+        // 重置狀態以備下次使用
+        tooltipRect.anchoredPosition = Vector2.zero;
+        canvasGroup.alpha = 1f;
+        tooltipRect.localScale = Vector3.one;
+        isHiding = false; // 完成隱藏
+    });
+}
 }
