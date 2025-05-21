@@ -12,6 +12,7 @@ public class WorkHouseTowerUIManager : MonoBehaviour
     public Button cancelButton;
     public Button closeButton;  
     public Image image;
+    public TMP_Text TitleText;
 
     private Spawner spawner;
     private GoldTower currentTower;
@@ -19,6 +20,7 @@ public class WorkHouseTowerUIManager : MonoBehaviour
     private WorkHouseGameManager workHouseGameManager;
     private int luckytimes;
     [SerializeField] private Sprite[] sprites;
+    private string towerName;
 
     private int upgradePrice;
 
@@ -46,7 +48,9 @@ public class WorkHouseTowerUIManager : MonoBehaviour
         currentTower = tower;
         upgradePrice = currentTower.GetPrice();
         luckytimes = tower.luckytimes;
-        PriceText.text = "Price: " + upgradePrice + "$";
+        towerName = currentTower.GetTowerName();
+        TitleText.text = towerName;
+        PriceText.text = "價格: " + upgradePrice + "$";
         if (currentTower != null && spawner.IsSpawning() == false)
         {
             StartCoroutine(ShowUI());
@@ -67,9 +71,9 @@ public class WorkHouseTowerUIManager : MonoBehaviour
         if (currentTower != null)
         {
             upgradePrice = currentTower.GetPrice();
-            PriceText.text = "Price: " + upgradePrice + "$";
-            infoText.text = $"LV: {currentTower.GetLevel()}\n" + 
-                            $"GoldPerSecond: {(float)currentTower.GoldPerSecond / 2}";
+            PriceText.text = "價格: " + upgradePrice + "$";
+            infoText.text = $"等級: {currentTower.GetLevel()}\n" + 
+                            $"每秒生產效率: {(float)currentTower.GoldPerSecond / 2}";
         }
         if (currentTower.GetLevel() >= currentTower.GetMaxLevel())
         {
@@ -109,7 +113,7 @@ public class WorkHouseTowerUIManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("金幣不足，無法升級！");
+                TooltipManager.Instance.ShowTooltip("金幣不足！");
             }
         }
     } 

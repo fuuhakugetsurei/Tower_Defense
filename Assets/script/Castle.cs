@@ -210,7 +210,7 @@ public class Castle : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
-            currentHealth += maxHealth / 5; // 每次治療 20% 最大血量 
+            currentHealth += maxHealth / 2; //50%
             if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
             targetHealth = currentHealth;

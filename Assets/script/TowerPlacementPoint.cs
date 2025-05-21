@@ -87,6 +87,7 @@ public class TowerPlacementPoint : MonoBehaviour
                     towerScript.luckytimes++;
                     luckyManager.SpendLucky(3);
                     Debug.Log("幸運塔放置成功！攻擊力提升！");
+                    TooltipManager.Instance.ShowTooltip("幸運值加成！");
                 }
                 else
                 {   

@@ -7,7 +7,7 @@ public class Demon_boss : BaseEnemy
     protected override void Update()
     {
         timer += Time.deltaTime; // 每秒更新一次
-        if (timer >= 3f)
+        if (timer >= 5f)
         {
             currentHealth += 1000;//每三秒回30%的血量
             targetHealth = currentHealth;

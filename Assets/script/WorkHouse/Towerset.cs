@@ -74,6 +74,7 @@ public class TowerSet : MonoBehaviour
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
                     towerScript.luckytimes++;
                     luckyManager.SpendLucky(3);
+                    TooltipManager.Instance.ShowTooltip("幸運值加成！");
                 }
                 else
                 {   

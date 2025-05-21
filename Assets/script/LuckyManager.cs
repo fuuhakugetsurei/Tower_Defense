@@ -47,7 +47,7 @@ public class LuckyManager : MonoBehaviour
     {
         if (luckyText != null)
         {
-            luckyText.text = "luckypoint: " + luckyPoint.ToString();
+            luckyText.text = "幸運值: " + luckyPoint.ToString();
             GameDataManager.Instance.lucky = luckyPoint;
         }
     }

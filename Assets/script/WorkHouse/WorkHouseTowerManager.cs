@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
 
 public class WorkHouseTowerManager : MonoBehaviour
 {
@@ -38,9 +38,7 @@ public class WorkHouseTowerManager : MonoBehaviour
         currentPlacementPoint = placementPoint;
         if (purchasePanel != null)
         {
-            purchasePanel.SetActive(true);
-            closeButton.gameObject.SetActive(true);
-            Debug.Log("顯示購買 UI");
+            StartCoroutine(ShowUI());
         }
         else
         {
@@ -64,7 +62,7 @@ public class WorkHouseTowerManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("金幣不足，無法購買塔！");
+                TooltipManager.Instance.ShowTooltip("金幣不足！");
                 // 可選：這裡可以顯示 UI 提示，例如 "金幣不足"
             }
         }
@@ -77,4 +75,14 @@ public class WorkHouseTowerManager : MonoBehaviour
         Debug.Log("取消購買");
         workHouseGameManager.isUIShowing = false;
     }
+
+    private IEnumerator ShowUI()
+    {
+        purchasePanel.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        if (closeButton != null)
+        {
+            closeButton.gameObject.SetActive(true);
+        }
+    }    
 }

@@ -89,6 +89,7 @@ public class TowerManager : MonoBehaviour
             }
             else
             {
+                TooltipManager.Instance.ShowTooltip("金幣不足！");
                 Debug.Log("金幣不足，無法購買塔！");
                 // 可選：這裡可以顯示 UI 提示，例如 "金幣不足"
             }

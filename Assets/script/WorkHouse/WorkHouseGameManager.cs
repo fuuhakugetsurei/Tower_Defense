@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class WorkHouseGameManager : MonoBehaviour
 {
     public static WorkHouseGameManager Instance { get; private set; }
-    public TMP_Text levelText;
     public TMP_Text luckyText;
     public TMP_Text goldText;
     private SceneController sceneController;
@@ -40,20 +39,20 @@ public class WorkHouseGameManager : MonoBehaviour
         switch (GameDataManager.Instance.gold)
         {
             case >= 1000000000:
-                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000000000f).ToString("F1") + "B"; ;
+                goldText.text = "金幣: " + (GameDataManager.Instance.gold / 1000000000f).ToString("F1") + "B"; 
                 break;
             case >= 1000000:
-                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000000f).ToString("F1") + "M"; ;
+                goldText.text = "金幣: " + (GameDataManager.Instance.gold / 1000000f).ToString("F1") + "M"; 
                 break;
             case >= 1000:
-                goldText.text = "coin: " + (GameDataManager.Instance.gold / 1000f).ToString("F1") + "K"; ;
+                goldText.text = "金幣: " + (GameDataManager.Instance.gold / 1000f).ToString("F1") + "K"; 
                 break;
             default:
-                goldText.text = "coin: " + GameDataManager.Instance.gold.ToString("F0"); ;
+                goldText.text = "金幣: " + GameDataManager.Instance.gold.ToString("F0"); 
                 break;
         }
-        luckyText.text = "luckypoint: " + GameDataManager.Instance.lucky.ToString();
-        levelText.text = "Level: " + GameDataManager.Instance.level.ToString();
+        luckyText.text = "幸運值: " + GameDataManager.Instance.lucky.ToString();
+        
     }
 
     public void Restart()

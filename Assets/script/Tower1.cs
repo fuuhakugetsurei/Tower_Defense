@@ -23,6 +23,7 @@ public class Tower1 : MonoBehaviour
     private int bulletsInFlight = 0; // 追蹤飛行中的子彈數
     private int bulletsFired = 0;    // 針對當前目標已發射的箭數
     private int requiredArrows = 0;  // 新增：當前目標所需的總箭數（初始計算）
+    private string towerName = "弓箭塔";
     
     public int luckytimes  = 0; 
 
@@ -144,6 +145,7 @@ public class Tower1 : MonoBehaviour
     public float GetAttackRange() => attackRange;
     public int GetPrice() => upgradePrice;
     public int GetMaxLevel() => maxLevel;
+    public string GetTowerName() => towerName;
 
     public void Upgrade()
     {
@@ -158,6 +160,7 @@ public class Tower1 : MonoBehaviour
                 damage += 5f;
                 luckyManager.SpendLucky(3);
                 luckytimes++;
+                TooltipManager.Instance.ShowTooltip("幸運值加成！");
             }
             else
             {

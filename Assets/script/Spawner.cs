@@ -172,7 +172,7 @@ public class Spawner : MonoBehaviour
         if (levelText != null)
         {
 
-            levelText.text = "Level: " + level.ToString();
+            levelText.text = $"第{level}關";
 
         }
     }

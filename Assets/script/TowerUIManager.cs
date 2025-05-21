@@ -12,6 +12,7 @@ public class TowerUIManager : MonoBehaviour
     public Button cancelButton;
     public Button closeButton;
     public Image image;
+    public TMP_Text TitleText;
 
     private Spawner spawner;
     private Tower1 currentTower;
@@ -19,6 +20,7 @@ public class TowerUIManager : MonoBehaviour
     private GameManager gameManager;
     private int upgradePrice;
     private int luckytimes;
+    private string towerName;
     [SerializeField] private Sprite[] sprites;
     void Start()
     {
@@ -43,7 +45,9 @@ public class TowerUIManager : MonoBehaviour
         else gameManager.isUIShowing = true;
         currentTower = tower;
         upgradePrice = currentTower.GetPrice();
-        PriceText.text = "Price: " + upgradePrice + "$";
+        towerName = currentTower.GetTowerName();
+        TitleText.text = towerName;
+        PriceText.text = "價格: " + upgradePrice + "$";
         luckytimes = tower.luckytimes;
         if (currentTower != null && spawner.IsSpawning() == false)
         {
@@ -65,11 +69,11 @@ public class TowerUIManager : MonoBehaviour
         if (currentTower != null)
         {
             upgradePrice = currentTower.GetPrice();
-            PriceText.text = "Price: " + upgradePrice + "$";
-            infoText.text = $"LV: {currentTower.GetLevel()}\n" +
-                            $"ATK: {currentTower.GetDamage()}\n" +
-                            $"AS: {currentTower.GetAttackSpeed()}\n" +
-                            $"RNG: {currentTower.GetAttackRange()}";
+            PriceText.text = "價格: " + upgradePrice + "$";
+            infoText.text = $"等級: {currentTower.GetLevel()}\n" +
+                            $"攻擊傷害: {currentTower.GetDamage()}\n" +
+                            $"攻擊速度: {currentTower.GetAttackSpeed()}\n" +
+                            $"攻擊範圍: {currentTower.GetAttackRange()}";
         }
         if (currentTower.GetLevel() >= currentTower.GetMaxLevel())
         {
@@ -109,7 +113,7 @@ public class TowerUIManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("金幣不足，無法升級！");
+                TooltipManager.Instance.ShowTooltip("金幣不足！");
             }
         }
     }   

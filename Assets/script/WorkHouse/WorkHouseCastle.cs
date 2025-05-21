@@ -54,6 +54,10 @@ public class WorkHouseCastle : MonoBehaviour
             WorkHouseGameManager.Instance.UpdateUI();
             UpdateInfo();
         }
+        else 
+        {
+            TooltipManager.Instance.ShowTooltip("金幣不足！");
+        }
     }
     private void OnHealButtonClicked()
     {
@@ -62,6 +66,10 @@ public class WorkHouseCastle : MonoBehaviour
             castle.Heal();
             WorkHouseGameManager.Instance.UpdateUI();
             UpdateInfo();
+            TooltipManager.Instance.ShowTooltip("已回復50%血量！");
+        }else 
+        {
+            TooltipManager.Instance.ShowTooltip("金幣不足！");
         }
     }
     private void OnMouseDown()
@@ -76,10 +84,10 @@ public class WorkHouseCastle : MonoBehaviour
     }
     private void UpdateInfo()
     {
-        PriceText.text = "Price: " + Castle.Instance.upgradePrice + "$";
-        HealPriceText.text = "Price: " + Castle.Instance.healPrice + "$";
-        infoText.text = $"LV: {Castle.Instance.level}\n" +
-                        $"MaxHP: {Castle.Instance.maxHealth}";
+        PriceText.text = "價格: " + Castle.Instance.upgradePrice + "$";
+        HealPriceText.text = "價格: " + Castle.Instance.healPrice + "$";
+        infoText.text = $"等級: {Castle.Instance.level}\n" +
+                        $"最大血量: {Castle.Instance.maxHealth}";
 
         if (Castle.Instance.level >= Castle.Instance.maxLevel)
         {

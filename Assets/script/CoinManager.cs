@@ -52,16 +52,16 @@ public class CoinManager : MonoBehaviour
             switch (gold)
             {
                 case >= 1000000000:
-                    goldText.text = "coin: " + (gold / 1000000000f).ToString("F1") + "B";;
+                    goldText.text = "金幣: " + (gold / 1000000000f).ToString("F1") + "B";;
                     break;
                 case >= 1000000:
-                    goldText.text = "coin: " + (gold / 1000000f).ToString("F1") + "M";;
+                    goldText.text = "金幣: " + (gold / 1000000f).ToString("F1") + "M";;
                     break;
                 case >= 1000:
-                    goldText.text = "coin: " + (gold / 1000f).ToString("F1") + "K";;
+                    goldText.text = "金幣: " + (gold / 1000f).ToString("F1") + "K";;
                     break;
                 default:
-                    goldText.text = "coin: " + gold.ToString("F0");;
+                    goldText.text = "金幣: " + gold.ToString("F0");;
                     break;
             }
             GameDataManager.Instance.gold = gold;

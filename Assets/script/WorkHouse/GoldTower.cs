@@ -10,6 +10,7 @@ public class GoldTower : MonoBehaviour
     private int level = 1;
     private int maxLevel = 20;
     public int luckytimes = 0; 
+    private string towerName = "金幣塔";
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class GoldTower : MonoBehaviour
                 luckytimes++;
                 workHouseGameManager.UpdateUI();
                 UpdatePrice();
+                TooltipManager.Instance.ShowTooltip("幸運值加成！");
             }
             else
             {
@@ -80,4 +82,5 @@ public class GoldTower : MonoBehaviour
     public int GetPrice() => Price;
     public int GetLevel() => level;
     public int GetMaxLevel() => maxLevel;
+    public string GetTowerName() => towerName;
 }
