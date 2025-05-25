@@ -8,6 +8,7 @@ public class WorkHouseTowerManager : MonoBehaviour
     public GameObject tower1Prefab;
     public Button cancelButton;
     public Button closeButton;
+    public Button purchaseButton;
     public int tower1Cost = 30;  
 
     private TowerSet currentPlacementPoint;
@@ -79,9 +80,11 @@ public class WorkHouseTowerManager : MonoBehaviour
     private IEnumerator ShowUI()
     {
         purchasePanel.SetActive(true);
+        purchaseButton.interactable = false;
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         if (closeButton != null)
         {
+            purchaseButton.interactable = true;
             closeButton.gameObject.SetActive(true);
         }
     }    

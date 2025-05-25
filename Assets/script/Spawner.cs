@@ -206,10 +206,6 @@ public class Spawner : MonoBehaviour
         GameDataManager.Instance.level = 0;
         Debug.Log("關卡已重置到初始狀態！");
     }
-    public void BackToMain()
-    {
-        startButton.onClick.AddListener(StartNextLevel);
-    }
 
     public bool IsSpawning() => isSpawning;
     public int GetLevel() => level;

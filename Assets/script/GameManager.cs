@@ -6,6 +6,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public Button start;
     public Button tenSpeedButton;
     public GameSettings gameSettings;
     public TextAsset levelConfigFile;
@@ -22,7 +23,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        isUIShowing = true;
+        start.gameObject.SetActive(true);
         tenSpeedButton.onClick.AddListener(() => speedup());
+        start.onClick.AddListener(() =>
+                                    {
+                                        start.gameObject.SetActive(false);
+                                        isUIShowing = false;
+                                    });
         buttonText = tenSpeedButton.GetComponentInChildren<TMP_Text>();
         buttonText.text = "1x";
         if (gameSettings == null)
@@ -51,11 +59,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("遊戲初始化完成，關卡數：" + gameSettings.enemiesPerLevel.Count);
 
-    }
-    public void QuitGame()
-    {
-        Application.Quit();
-        Debug.Log("退出遊戲");
     }
     public void Restart()
     {

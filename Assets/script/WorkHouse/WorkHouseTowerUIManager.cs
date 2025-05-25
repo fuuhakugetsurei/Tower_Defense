@@ -120,9 +120,11 @@ public class WorkHouseTowerUIManager : MonoBehaviour
     private IEnumerator ShowUI()
     {
         uiPanel.SetActive(true);
+        upgradeButton.interactable = false;
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         if (closeButton != null)
         {
+            upgradeButton.interactable = true;
             closeButton.gameObject.SetActive(true);
         }
     }        

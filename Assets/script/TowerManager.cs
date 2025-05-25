@@ -8,6 +8,7 @@ public class TowerManager : MonoBehaviour
     public GameObject tower1Prefab;
     public Button cancelButton;
     public Button closeButton;
+    public Button purchaseButton;
     
     public int tower1Cost = 50;  // 塔1 的價格
 
@@ -98,10 +99,12 @@ public class TowerManager : MonoBehaviour
     private IEnumerator ShowUI()
     {
         purchasePanel.SetActive(true);
+        purchaseButton.interactable = false;
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         if (closeButton != null)
         {
             closeButton.gameObject.SetActive(true);
+            purchaseButton.interactable = true;
         }
     }
     private void CancelPurchase()

@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class Castle : MonoBehaviour
 {
+    public GameObject gameover;
+    public Button quit;
+    public Button restart;
     public static Castle Instance { get; private set; }
     public int level { get; private set; } = 1;
     public int maxLevel { get; private set; } = 20;
@@ -22,6 +26,7 @@ public class Castle : MonoBehaviour
     private RectTransform castleHealthCanvasRect;
     private GameManager gameManager;
     private Camera mainCam;
+
     
     #region 初始化
     void Awake()
@@ -31,6 +36,8 @@ public class Castle : MonoBehaviour
     }
     void Start()
     {
+        quit.onClick.AddListener(() => Application.Quit());
+        restart.onClick.AddListener(() => gameover.gameObject.SetActive(false));
         mainCam = Camera.main;
         gameManager = FindFirstObjectByType<GameManager>();
         currentHealth = maxHealth;
@@ -202,8 +209,20 @@ public class Castle : MonoBehaviour
             healthBar.value = 0;
         if (HealthValueText != null)
             HealthValueText.text = $"0 / {maxHealth}";
-        Debug.Log("GAMEOVER");
-        gameManager.Restart();
+        gameover.gameObject.SetActive(true);
+        Image gameoverSprite = gameover.GetComponent<Image>();
+        gameoverSprite.color = new Color(gameoverSprite.color.r, gameoverSprite.color.g, gameoverSprite.color.b, 0);
+        gameoverSprite.DOFade(1f, 1f)
+                        .SetEase(Ease.InOutSine)
+                        .SetUpdate(UpdateType.Normal,true)
+                        .OnComplete(() =>
+                        {
+                            gameManager.Restart();
+                            foreach (Transform child in gameover.transform)
+                            {
+                                child.gameObject.SetActive(true);
+                            }
+                        });
     }
 
     public void Heal()

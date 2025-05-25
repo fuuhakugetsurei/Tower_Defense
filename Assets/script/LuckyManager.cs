@@ -43,7 +43,7 @@ public class LuckyManager : MonoBehaviour
     }
 
     
-    void UpdateUI()
+    private void UpdateUI()
     {
         if (luckyText != null)
         {
