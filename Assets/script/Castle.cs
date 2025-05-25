@@ -212,12 +212,12 @@ public class Castle : MonoBehaviour
         gameover.gameObject.SetActive(true);
         Image gameoverSprite = gameover.GetComponent<Image>();
         gameoverSprite.color = new Color(gameoverSprite.color.r, gameoverSprite.color.g, gameoverSprite.color.b, 0);
+        gameManager.Restart();
         gameoverSprite.DOFade(1f, 1f)
                         .SetEase(Ease.InOutSine)
                         .SetUpdate(UpdateType.Normal,true)
                         .OnComplete(() =>
                         {
-                            gameManager.Restart();
                             foreach (Transform child in gameover.transform)
                             {
                                 child.gameObject.SetActive(true);
