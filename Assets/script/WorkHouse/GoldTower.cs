@@ -77,7 +77,7 @@ public class GoldTower : MonoBehaviour
 
     private void UpdatePrice()
     {
-        Price += 10 * (level-1);
+        Price += 20 * (level-1);
     }
     public int GetPrice() => Price;
     public int GetLevel() => level;

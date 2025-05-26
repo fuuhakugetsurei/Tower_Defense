@@ -20,33 +20,32 @@ public class Tower1 : MonoBehaviour
     private GameObject currentTarget;
     private int upgradePrice = 10;
     private LuckyManager luckyManager;
-    private int bulletsInFlight = 0; // 追蹤飛行中的子彈數
+
     private int bulletsFired = 0;    // 針對當前目標已發射的箭數
     private int requiredArrows = 0;  // 新增：當前目標所需的總箭數（初始計算）
     private string towerName = "弓箭塔";
-    
-    public int luckytimes  = 0; 
+
+    public int luckytimes = 0;
 
     void Update()
     {
         luckyManager = FindFirstObjectByType<LuckyManager>();
-        
+
         if (attackCooldown > 0)
         {
-            attackCooldown -= Time.deltaTime;
+            attackCooldown -= Time.unscaledDeltaTime * Time.timeScale; // 使用縮放後的時間
         }
 
         // 檢查當前目標是否有效，若無效則重置
         if (currentTarget != null)
         {
             BaseEnemy enemy = currentTarget.GetComponent<BaseEnemy>();
-            if (enemy == null || enemy.GetCurrentHealth() <= 0 || 
+            if (enemy == null || enemy.GetCurrentHealth() <= 0 ||
                 Vector2.Distance(transform.position, currentTarget.transform.position) > attackRange)
             {
                 currentTarget = null;
                 bulletsFired = 0;
-                bulletsInFlight = 0;
-                requiredArrows = 0; // 重置所需箭數
+                requiredArrows = 0;
             }
         }
 
@@ -115,10 +114,10 @@ public class Tower1 : MonoBehaviour
                     Tower1Bullet bulletScript = bullet.GetComponent<Tower1Bullet>();
                     bulletScript.SetTarget(currentTarget);
                     bulletScript.damage = damage;
-                    bulletScript.onHitOrDestroy += () => bulletsInFlight--; // 子彈命中或銷毀時減少計數
+
                     Debug.Log($"{gameObject.name} 發射子彈 {bulletsFired + 1}/{requiredArrows} 攻擊 {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}");
 
-                    bulletsInFlight++;
+
                     bulletsFired++;
                     attackCooldown = 1f / attackSpeed; // 設置冷卻時間
                 }
@@ -199,6 +198,6 @@ public class Tower1 : MonoBehaviour
 
     private void UpdatePrice()
     {
-        upgradePrice += 10 * (level - 1);
+        upgradePrice += 20 * (level - 1);
     }
 }

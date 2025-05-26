@@ -18,7 +18,7 @@ public class Tower1Bullet : MonoBehaviour
     {
         if (target == null)
         {
-            onHitOrDestroy?.Invoke(); // 目標消失時通知塔
+            onHitOrDestroy?.Invoke();
             Destroy(gameObject);
             return;
         }
@@ -26,9 +26,10 @@ public class Tower1Bullet : MonoBehaviour
         // 更新旋轉
         UpdateRotation();
 
-        // 移動
+        // 移動，使用 Time.unscaledDeltaTime 並考慮 timeScale
         Vector3 direction = (target.transform.position - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale; // 確保移動距離與時間縮放一致
+        transform.position += direction * speed * effectiveDeltaTime;
 
         // 如果接近目標，執行命中
         if (Vector2.Distance(transform.position, target.transform.position) < 0.2f)

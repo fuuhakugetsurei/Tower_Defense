@@ -77,7 +77,8 @@ public abstract class BaseEnemy : MonoBehaviour
         if (waypoints == null || waypointIndex >= waypoints.Length) return;
 
         Vector2 targetPosition = waypoints[waypointIndex].position;
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale; // 考慮 timeScale
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * effectiveDeltaTime);
 
         if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
         {

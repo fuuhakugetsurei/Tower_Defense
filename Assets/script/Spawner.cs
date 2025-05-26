@@ -9,6 +9,8 @@ public class Spawner : MonoBehaviour
     public Button startButton;
     public TMP_Text levelText;
     public Button gotoWorkHouse;
+    public GameObject gameComplate;
+    public Button speedUp;
 
     [SerializeField]
     private GameObject healthBarPrefab;  // 在 Inspector 中設置血條預製體
@@ -79,6 +81,8 @@ public class Spawner : MonoBehaviour
             {
                 startButton.gameObject.SetActive(false);
                 gotoWorkHouse.gameObject.SetActive(false);
+                speedUp.gameObject.SetActive(false);
+                gameComplate.SetActive(true);
             }
             return;
         }
@@ -201,6 +205,8 @@ public class Spawner : MonoBehaviour
         {
             startButton.gameObject.SetActive(true);
             gotoWorkHouse.gameObject.SetActive(true);
+            speedUp.gameObject.SetActive(true);
+            gameComplate.SetActive(false);
         }
 
         GameDataManager.Instance.level = 0;

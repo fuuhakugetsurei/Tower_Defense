@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   currentEnemyCount: 0
-  initialGold: 60
+  initialGold: 80
   luckyPoint: 50

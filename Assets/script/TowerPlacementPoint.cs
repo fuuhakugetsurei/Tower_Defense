@@ -91,7 +91,7 @@ public class TowerPlacementPoint : MonoBehaviour
                 }
                 else
                 {   
-                    float bonusMultiplier = 0.8f;
+                    float bonusMultiplier = 1f;
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
                     luckyManager.AddLucky(5);
                     towerScript.luckytimes--;

@@ -66,9 +66,9 @@ public class ImageScroller : MonoBehaviour
             {
                 infoText.text = $"{data.towerName} :\n" +
                                 $"等級上限 : {data.maxlevel}\n" +
-                                $"攻擊速度 : {(data.attackSpeed)*0.8}" + " ~ " + $"{(data.attackSpeed)*1.2}" + "\n" +
+                                $"攻擊速度 : {data.attackSpeed}" + " ~ " + $"{(data.attackSpeed)*1.2}" + "\n" +
                                 $"攻擊範圍 : {data.attackRange}\n" +
-                                $"傷害 : {(data.damage)*0.8}" + " ~ " + $"{(data.damage)*1.2}" + "\n" +
+                                $"傷害 : {data.damage}" + " ~ " + $"{(data.damage)*1.2}" + "\n" +
                                 $"價格 : {data.cost}";
             }
         }

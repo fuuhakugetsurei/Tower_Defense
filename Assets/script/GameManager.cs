@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public Button start;
     public Button tenSpeedButton;
+    public Image image;
     public GameSettings gameSettings;
     public TextAsset levelConfigFile;
     public bool isUIShowing = false;
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> enemyPrefabs = new List<GameObject>();
     private Dictionary<string, GameObject> enemyPrefabMap = new Dictionary<string, GameObject>();
+    [SerializeField] private Sprite[] sprites;
+
     void Awake()
     {
         Application.runInBackground = true;
@@ -83,17 +86,23 @@ public class GameManager : MonoBehaviour
         CoinManager.Instance.setup();
         WorkHouseGameManager.Instance.Restart();
     }
+    public void quit()
+    {
+        Application.Quit();
+    }
     private void speedup()
     {
         if (buttonText != null)
         {
             if (speed == 1)
             {
+                image.sprite = sprites[0];
                 speed = 10;
                 buttonText.text = "10x";
             }
             else
             {
+                image.sprite = sprites[1];
                 speed = 1;
                 buttonText.text = "1x";
             }
