@@ -36,12 +36,12 @@ public class GoldTowerManager : MonoBehaviour
     {
         if (spawner != null && spawner.IsSpawning())
         {
-            timer += Time.deltaTime;
-            if (timer >= 2f)
+            timer += Time.unscaledDeltaTime * Time.timeScale;
+            while (timer >= 2f) // 使用 while 處理可能的多重觸發
             {
                 foreach (var tower in towers)
                 {
-                    if (tower != null) // 確保塔未銷毀
+                    if (tower != null)
                     {
                         if (luckyManager.RollLucky())
                         {
@@ -57,7 +57,7 @@ public class GoldTowerManager : MonoBehaviour
                         }
                     }
                 }
-                timer -= 2f;
+                timer -= 2f; // 減去一個週期
             }
         }
     }

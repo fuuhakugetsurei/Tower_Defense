@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
     {
         if (!isSpawning || gameSettings.currentLevel == 0) return;
 
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime * Time.timeScale; // 使用縮放後的時間
 
         maxEnemies = gameSettings.GetMaxEnemiesForLevel(gameSettings.currentLevel);
         if (timer >= spawnInterval && gameSettings.currentEnemyCount < maxEnemies && spawnList.Count > 0)
@@ -160,11 +160,15 @@ public class Spawner : MonoBehaviour
             {
                 startButton.gameObject.SetActive(true);
                 gotoWorkHouse.gameObject.SetActive(true);
+                speedUp.gameObject.SetActive(true);
+                gameComplate.SetActive(false);
             }
             else
             {
                 startButton.gameObject.SetActive(false);
                 gotoWorkHouse.gameObject.SetActive(false);
+                speedUp.gameObject.SetActive(false);
+                gameComplate.SetActive(true);
             }
         }
     }

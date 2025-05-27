@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Application.runInBackground = true;
+        QualitySettings.vSyncCount = 0; // 關閉 V-Sync
     }
 
     void Start()
@@ -29,9 +31,17 @@ public class GameManager : MonoBehaviour
         isUIShowing = true;
         start.gameObject.SetActive(true);
         tenSpeedButton.onClick.AddListener(() => speedup());
+        Image gameoverSprite = start.gameObject.GetComponent<Image>();
         start.onClick.AddListener(() =>
                                     {
-                                        start.gameObject.SetActive(false);
+                                        gameoverSprite.DOFade(0f, 1f)
+                                                        .SetEase(Ease.InOutSine)
+                                                        .SetUpdate(UpdateType.Normal,true)
+                                                        .OnComplete(() =>
+                                                         {
+                                                            start.gameObject.SetActive(false);
+                                                        });
+                                        
                                         isUIShowing = false;
                                     });
         buttonText = tenSpeedButton.GetComponentInChildren<TMP_Text>();
