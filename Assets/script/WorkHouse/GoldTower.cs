@@ -5,18 +5,22 @@ public class GoldTower : MonoBehaviour
 {
     public int GoldPerSecond { get; private set; } = 1; // 公開屬性
     private LuckyManager luckyManager;
+    private CoinManager coinManager;
     private WorkHouseGameManager workHouseGameManager;
     private int Price = 10;
     private int level = 1;
     private int maxLevel = 20;
     public int luckytimes = 0; 
     private string towerName = "金幣塔";
+    private int cost = 30; // 總價值
+    public TowerSet towerSet;
 
     void Start()
     {
         GoldTowerManager.Instance.AddTower(this); // 註冊到 CoinManager
         luckyManager = FindFirstObjectByType<LuckyManager>();
         workHouseGameManager = FindFirstObjectByType<WorkHouseGameManager>();   
+        coinManager = FindFirstObjectByType<CoinManager>();
     }
 
     void OnDestroy()
@@ -55,7 +59,7 @@ public class GoldTower : MonoBehaviour
                 luckyManager.SpendLucky(3);
                 luckytimes++;
                 workHouseGameManager.UpdateUI();
-                UpdatePrice();
+                
                 TooltipManager.Instance.ShowTooltip("幸運值加成！");
             }
             else
@@ -64,8 +68,9 @@ public class GoldTower : MonoBehaviour
                 luckyManager.AddLucky(5);
                 luckytimes--;
                 workHouseGameManager.UpdateUI();
-                UpdatePrice();
+                
             }
+            cost += Price;
             UpdatePrice();
 
         }
@@ -78,6 +83,17 @@ public class GoldTower : MonoBehaviour
     private void UpdatePrice()
     {
         Price += 20 * (level-1);
+    }
+    public void DestroyTower()
+    {
+        if (coinManager != null)
+        {
+            coinManager.AddGold((int)(cost * 0.8f)); // 銷毀塔時返還80%金幣
+            workHouseGameManager.UpdateUI();
+        }
+        GoldTowerManager.Instance.RemoveTower(this);
+        towerSet.RemoveTower();
+        Destroy(gameObject);
     }
     public int GetPrice() => Price;
     public int GetLevel() => level;

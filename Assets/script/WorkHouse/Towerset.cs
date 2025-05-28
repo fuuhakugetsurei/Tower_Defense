@@ -7,7 +7,7 @@ public class TowerSet : MonoBehaviour
     public bool isOccupied = false;
     private GameObject currentTower;
     private WorkHouseTowerManager towerManager;
-    
+
     [SerializeField]
     private Vector3 spawnOffset = Vector3.zero; // 可在 Inspector 中調整偏移
     private LuckyManager luckyManager;
@@ -63,28 +63,43 @@ public class TowerSet : MonoBehaviour
             // 使用 spawnOffset 調整生成位置
             Vector3 spawnPosition = transform.position + spawnOffset;
             currentTower = Instantiate(towerPrefab, spawnPosition, Quaternion.identity);
-            SceneManager.MoveGameObjectToScene(currentTower, gameObject.scene); 
+            SceneManager.MoveGameObjectToScene(currentTower, gameObject.scene);
             isOccupied = true;
             if (currentTower.TryGetComponent<GoldTower>(out GoldTower towerScript))
             {
+                towerScript.towerSet = this; // 設置塔的引用
                 bool isLucky = luckyManager.RollLucky();
                 if (isLucky)
                 {
-                    int bonusMultiplier = 1; 
+                    int bonusMultiplier = 1;
                     towerScript.ApplyLuckyBonus(bonusMultiplier);
                     towerScript.luckytimes++;
                     luckyManager.SpendLucky(3);
                     TooltipManager.Instance.ShowTooltip("幸運值加成！");
                 }
                 else
-                {   
+                {
                     towerScript.luckytimes--;
                     luckyManager.AddLucky(5);
-                }   
+                }
             }
             Debug.Log($"{gameObject.name} 放置了塔: {currentTower.name}，位置: {spawnPosition}");
             gameObject.SetActive(false);
-            
+
+        }
+    }
+    public void RemoveTower()
+    {
+        if (currentTower != null)
+        {
+            currentTower = null;
+            isOccupied = false;
+            gameObject.SetActive(true);
+            Debug.Log($"{gameObject.name} 移除了塔");
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} 沒有塔可以移除");
         }
     }
 }

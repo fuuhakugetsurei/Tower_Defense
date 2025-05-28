@@ -8,6 +8,7 @@ using DG.Tweening;
 public class GameManager : MonoBehaviour
 {
     public Button start;
+    public TMP_Text startText;
     public Button tenSpeedButton;
     public Image image;
     public GameSettings gameSettings;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Application.runInBackground = true;
-        QualitySettings.vSyncCount = 0; // 關閉 V-Sync
+        QualitySettings.vSyncCount = 0; 
     }
 
     void Start()
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
         Image gameoverSprite = start.gameObject.GetComponent<Image>();
         start.onClick.AddListener(() =>
                                     {
+                                        startText.gameObject.SetActive(false);
                                         gameoverSprite.DOFade(0f, 1f)
                                                         .SetEase(Ease.InOutSine)
                                                         .SetUpdate(UpdateType.Normal,true)

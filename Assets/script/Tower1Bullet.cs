@@ -54,7 +54,6 @@ public class Tower1Bullet : MonoBehaviour
         if (enemy != null && enemy.GetCurrentHealth() > 0)
         {
             enemy.TakeDamage(damage);
-            Debug.Log($"{gameObject.name} 命中 {target.name}，造成 {damage} 傷害，剩餘血量: {enemy.GetCurrentHealth()}");
         }
         onHitOrDestroy?.Invoke(); // 通知塔子彈已命中
         Destroy(gameObject); // 命中後銷毀子彈

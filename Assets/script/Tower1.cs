@@ -20,16 +20,20 @@ public class Tower1 : MonoBehaviour
     private GameObject currentTarget;
     private int upgradePrice = 10;
     private LuckyManager luckyManager;
+    private CoinManager coinManager;
+    public TowerPlacementPoint placementPoint;
 
     private int bulletsFired = 0;    // 針對當前目標已發射的箭數
     private int requiredArrows = 0;  // 新增：當前目標所需的總箭數（初始計算）
     private string towerName = "弓箭塔";
+    private int cost = 50; //總價值
 
     public int luckytimes = 0;
 
     void Update()
     {
         luckyManager = FindFirstObjectByType<LuckyManager>();
+        coinManager = FindFirstObjectByType<CoinManager>();
 
         if (attackCooldown > 0)
         {
@@ -168,6 +172,7 @@ public class Tower1 : MonoBehaviour
                 luckyManager.AddLucky(5);
                 luckytimes--;
             }
+            cost += upgradePrice;
             UpdatePrice();
             Debug.Log($"{gameObject.name} 升級為 Lv{level}，傷害: {damage}，攻速: {attackSpeed}，範圍: {attackRange}");
         }
@@ -199,5 +204,17 @@ public class Tower1 : MonoBehaviour
     private void UpdatePrice()
     {
         upgradePrice += 20 * (level - 1);
+    }
+    public void DestroyTower()
+    {
+        if (coinManager != null)
+        {
+            coinManager.AddGold((int)(cost*0.8f)); // 銷毀塔時返還80%金幣
+        }
+        if (placementPoint != null)
+        {
+            placementPoint.RemoveTower(); // 從放置點移除塔
+        }
+        Destroy(gameObject);
     }
 }

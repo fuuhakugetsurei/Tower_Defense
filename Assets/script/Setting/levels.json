@@ -40,6 +40,29 @@
             {"enemyType": "ShieldEnemy", "count": 10},
             {"enemyType": "SpeedUpEnemy", "count": 10},
             {"enemyType": "Demon_boss", "count": 1}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 35},
+            {"enemyType": "ShieldEnemy", "count": 20},
+            {"enemyType": "BlockKnight", "count": 5}
+        ],
+        [
+            {"enemyType": "BlockKnight", "count": 50}
+        ],
+        [
+            {"enemyType": "OrdinaryEmeny", "count": 35},
+            {"enemyType": "ShieldEnemy", "count": 20},
+            {"enemyType": "BlockKnight", "count": 5},
+            {"enemyType": "SpeedUpEnemy", "count": 3}
+        ],
+        [
+            {"enemyType": "ShieldEnemy", "count": 40},
+            {"enemyType": "BlockKnight", "count": 20},
+            {"enemyType": "SpeedUpEnemy", "count": 5}
+        ],
+        [
+            {"enemyType": "BlockKnight", "count": 50},
+            {"enemyType": "SpeedUpEnemy", "count": 15}
         ]
     ]
 }

@@ -100,7 +100,6 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             Die();
         }
-        // 移除協程啟動，改由 Update 處理平滑更新
     }
 
     protected virtual void UpdateHealthBar()

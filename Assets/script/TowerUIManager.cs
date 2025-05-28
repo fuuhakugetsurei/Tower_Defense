@@ -13,6 +13,8 @@ public class TowerUIManager : MonoBehaviour
     public Button closeButton;
     public Image image;
     public TMP_Text TitleText;
+    public Button DestroyButton;
+        
 
     private Spawner spawner;
     private Tower1 currentTower;
@@ -31,6 +33,14 @@ public class TowerUIManager : MonoBehaviour
         upgradeButton.onClick.AddListener(OnUpgradeButtonClicked);
         coinManager = FindFirstObjectByType<CoinManager>();
         spawner = FindFirstObjectByType<Spawner>();
+        DestroyButton.onClick.AddListener(() =>
+        {
+            if (currentTower != null)
+            {
+                currentTower.DestroyTower();
+                HideUI();
+            }
+        }); 
     }
     void Update()
     {

@@ -126,24 +126,24 @@ public class Spawner : MonoBehaviour
         spawnList.RemoveAt(randomIndex);
 
         GameObject enemy = Instantiate(enemyConfig.enemyPrefab, transform.position, Quaternion.identity);
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        SpeedBoostEnemy speedBoostEnemyScript = enemy.GetComponent<SpeedBoostEnemy>();
-        Demon_boss demon_BossScript = enemy.GetComponent<Demon_boss>();
+        BaseEnemy enemyScript = enemy.GetComponent<BaseEnemy>();
+        // SpeedBoostEnemy speedBoostEnemyScript = enemy.GetComponent<SpeedBoostEnemy>();
+        // Demon_boss demon_BossScript = enemy.GetComponent<Demon_boss>();
         if (enemyScript != null)
         {
             enemyScript.healthBarPrefab = healthBarPrefab;
             enemyScript.SetWaypoints(waypoints);
         }
-        if (speedBoostEnemyScript != null)
-        {
-            speedBoostEnemyScript.healthBarPrefab = healthBarPrefab;
-            speedBoostEnemyScript.SetWaypoints(waypoints);
-        }
-        if (demon_BossScript != null)
-        {
-            demon_BossScript.healthBarPrefab = healthBarPrefab;
-            demon_BossScript.SetWaypoints(waypoints);
-        }
+        // if (speedBoostEnemyScript != null)
+        // {
+        //     speedBoostEnemyScript.healthBarPrefab = healthBarPrefab;
+        //     speedBoostEnemyScript.SetWaypoints(waypoints);
+        // }
+        // if (demon_BossScript != null)
+        // {
+        //     demon_BossScript.healthBarPrefab = healthBarPrefab;
+        //     demon_BossScript.SetWaypoints(waypoints);
+        // }
 
         gameSettings.currentEnemyCount++;
         Debug.Log("生成敵人: " + enemy.name + "，剩餘敵人數: " + spawnList.Count);
