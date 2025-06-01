@@ -1,20 +1,20 @@
 using UnityEngine;
 using System;
 
-public class Tower1Bullet : MonoBehaviour
+public class BulletBase : MonoBehaviour
 {
-    public float speed = 5f;
-    public float damage = 10f; // 由塔傳遞的傷害值
-    private GameObject target;
+    [SerializeField] protected float speed = 5f; // 子彈速度
+    public float damage = 10f; // 傷害值
+    protected GameObject target; // 目標敵人
     public Action onHitOrDestroy; // 回調事件，通知塔子彈命中或銷毀
 
-    public void SetTarget(GameObject targetEnemy)
+    public virtual void SetTarget(GameObject targetEnemy)
     {
         target = targetEnemy;
-        UpdateRotation(); // 初始旋轉
+        UpdateRotation();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (target == null)
         {
@@ -28,17 +28,17 @@ public class Tower1Bullet : MonoBehaviour
 
         // 移動，使用 Time.unscaledDeltaTime 並考慮 timeScale
         Vector3 direction = (target.transform.position - transform.position).normalized;
-        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale; // 確保移動距離與時間縮放一致
+        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale;
         transform.position += direction * speed * effectiveDeltaTime;
 
-        // 如果接近目標，執行命中
+        // 檢查是否接近目標
         if (Vector2.Distance(transform.position, target.transform.position) < 0.2f)
         {
             HitTarget();
         }
     }
 
-    private void UpdateRotation()
+    protected virtual void UpdateRotation()
     {
         if (target != null)
         {
@@ -48,18 +48,18 @@ public class Tower1Bullet : MonoBehaviour
         }
     }
 
-    private void HitTarget()
+    protected virtual void HitTarget()
     {
-        BaseEnemy enemy = target.GetComponent<BaseEnemy>();
+        BaseEnemy enemy = target?.GetComponent<BaseEnemy>();
         if (enemy != null && enemy.GetCurrentHealth() > 0)
         {
             enemy.TakeDamage(damage);
         }
-        onHitOrDestroy?.Invoke(); // 通知塔子彈已命中
-        Destroy(gameObject); // 命中後銷毀子彈
+        onHitOrDestroy?.Invoke();
+        Destroy(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == target)
         {
@@ -67,8 +67,8 @@ public class Tower1Bullet : MonoBehaviour
         }
     }
 
-    void OnDestroy()
+    protected virtual void OnDestroy()
     {
-        onHitOrDestroy?.Invoke(); // 確保銷毀時通知塔
+        onHitOrDestroy?.Invoke();
     }
 }

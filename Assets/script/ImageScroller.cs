@@ -12,7 +12,7 @@ public class ImageScroller : MonoBehaviour
     public TowerInfo[] towerInfos; // 這是從 ScriptableObject 獲取的塔的資訊
 
     private TowerManager towerManager;
-    
+
     void Start()
     {
         towerManager = FindFirstObjectByType<TowerManager>();
@@ -49,12 +49,7 @@ public class ImageScroller : MonoBehaviour
     }
     public void Enter()
     {
-        if (currentIndex == 0)
-        {
-            towerManager.PurchaseTower(towerManager.tower1Prefab, towerManager.tower1Cost);
-        }
-        // todo:未來可以根據 currentIndex 動態選擇塔，例如：
-        //towerManager.PurchaseTower(towerDatas[currentIndex].prefab, towerDatas[currentIndex].cost);*/
+        towerManager.PurchaseTower(towerInfos[currentIndex].prefab, towerInfos[currentIndex].cost);
     }
 
     public void InfoUpdate()
@@ -62,15 +57,19 @@ public class ImageScroller : MonoBehaviour
         TowerInfo data = towerInfos[currentIndex];
         if (infoText != null)
         {
-            if (currentIndex == 0)
-            {
-                infoText.text = $"{data.towerName} :\n" +
-                                $"等級上限 : {data.maxlevel}\n" +
-                                $"攻擊速度 : {data.attackSpeed}" + " ~ " + $"{(data.attackSpeed)*1.2}" + "\n" +
-                                $"攻擊範圍 : {data.attackRange}\n" +
-                                $"傷害 : {data.damage}" + " ~ " + $"{(data.damage)*1.2}" + "\n" +
-                                $"價格 : {data.cost}";
-            }
+            string info = $"{data.towerName} :\n";
+            if (data.maxlevel > 0)
+                info += $"等級上限 : {data.maxlevel}\n";
+            if (data.attackSpeed > 0)
+                info += $"攻擊速度 : {data.attackSpeed} ~ {(data.attackSpeed * 1.2)}\n";
+            if (data.attackRange > 0)
+                info += $"攻擊範圍 : {data.attackRange}\n";
+            if (data.damage > 0)
+                info += $"傷害 : {data.damage} ~ {(data.damage * 1.2)}\n";
+            if (data.cost > 0)
+                info += $"價格 : {data.cost}";
+
+            infoText.text = info;
         }
         if (data.additionalAttributes != null && data.additionalAttributes.Count > 0)
         {

@@ -23,16 +23,19 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Camera mainCam;  // 快取主攝影機
     protected float targetHealth; // 新增：追蹤血條的目標值
     private float displayedHealth; // 新增：當前顯示的血條值
+    private bool isSlowed = false;
+    private Coroutine slowCoroutine;
+    private float originalSpeed; // 新增：記錄原始速度
 
     protected virtual void Start()
     {
+        originalSpeed = speed; // 記錄原始速度  
         mainCam = Camera.main;
         coinManager = FindFirstObjectByType<CoinManager>();
         castle = FindFirstObjectByType<Castle>();
         currentHealth = maxHealth;
         targetHealth = maxHealth; // 初始化目標血量
         displayedHealth = maxHealth; // 初始化顯示血量
-
         GameObject canvasObj = GameObject.Find("HealthBarsCanvas");
         if (canvasObj != null)
         {
@@ -150,4 +153,57 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     public float GetCurrentHealth() => currentHealth;
+
+    private float slowEndTime = 0f;  // 新增：記錄減速效果結束時間
+    
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        float currentTime = Time.time;
+        
+        // 更新結束時間（取較晚的時間）
+        slowEndTime = Mathf.Max(currentTime + duration, slowEndTime);
+    
+        // 如果還沒被減速，才套用減速效果
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            float originalSpeed = speed;
+            speed = originalSpeed * (1f - slowAmount);
+            
+            // 改變顏色表示被冰凍
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                Color originalColor = spriteRenderer.color;
+                spriteRenderer.color = new Color(originalColor.r * 0.5f, originalColor.g * 0.7f, originalColor.b + 0.5f, originalColor.a);
+            }
+        }
+    
+        // 確保協程在運行
+        if (slowCoroutine == null)
+        {
+            slowCoroutine = StartCoroutine(SlowCoroutine(slowAmount));
+        }
+    }
+    
+    private IEnumerator SlowCoroutine(float slowAmount)
+    {
+        while (Time.time < slowEndTime)
+        {
+            yield return null;
+        }
+    
+        // 解除減速效果
+        isSlowed = false;
+        speed = originalSpeed;  // 設定回原始速度
+        
+        // 恢復原始顏色
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.white;
+        }
+        
+        slowCoroutine = null;
+    }
 }

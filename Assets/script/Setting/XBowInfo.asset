@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24fa65fe80915d49a329b95844acea1, type: 3}
+  m_Name: XBowInfo
+  m_EditorClassIdentifier: 
+  towerName: "X\u9023\u5F29"
+  maxlevel: 20
+  attackSpeed: 0
+  attackRange: 2
+  damage: 15
+  cost: 45
+  prefab: {fileID: 1022141895292471609, guid: bb9af9f8e47bd73498946d83a5839045, type: 3}
+  additionalAttributes:
+  - attributeName: "\u6BCF\u6BB5\u51B7\u537B\u6642\u9593"
+    value: 3s
+  - attributeName: "\u521D\u59CB\u9023\u767C\u7BAD\u6578"
+    value: 3
+  - attributeName: "\u6EFF\u7D1A\u9023\u767C\u7BAD\u6578"
+    value: 7

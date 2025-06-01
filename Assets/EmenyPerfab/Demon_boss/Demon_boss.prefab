@@ -127,7 +127,7 @@ MonoBehaviour:
   speed: 0.8
   maxHealth: 3000
   coinDrop: 200
-  ATK: 150
+  ATK: 3000
   gameSettings: {fileID: 11400000, guid: 3bddbb77ce6182f4582cb6d69b52bd31, type: 2}
   healthBarPrefab: {fileID: 6073938603832168950, guid: c28e9e558c85b18498f0c4d12489bc86, type: 3}
 --- !u!61 &-5996090889853620585

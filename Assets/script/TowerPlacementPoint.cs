@@ -77,7 +77,7 @@ public class TowerPlacementPoint : MonoBehaviour
             Vector3 spawnPosition = transform.position + spawnOffset;
             currentTower = Instantiate(towerPrefab, spawnPosition, Quaternion.identity);
             isOccupied = true;
-            if (currentTower.TryGetComponent<Tower1>(out Tower1 towerScript))
+            if (currentTower.TryGetComponent<TowerBase>(out TowerBase towerScript))
             {
                 towerScript.placementPoint = this;
                 bool isLucky = luckyManager.RollLucky();

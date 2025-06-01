@@ -18,3 +18,5 @@ MonoBehaviour:
   attackRange: 2
   damage: 10
   cost: 50
+  prefab: {fileID: 1570180418904448553, guid: 839fe658105529d41b41c7232983579f, type: 3}
+  additionalAttributes: []

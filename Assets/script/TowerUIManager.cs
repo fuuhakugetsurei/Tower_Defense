@@ -17,7 +17,7 @@ public class TowerUIManager : MonoBehaviour
         
 
     private Spawner spawner;
-    private Tower1 currentTower;
+    private TowerBase currentTower;
     private CoinManager coinManager;
     private GameManager gameManager;
     private int upgradePrice;
@@ -49,7 +49,7 @@ public class TowerUIManager : MonoBehaviour
             HideUI();
         }
     }
-    public void ShowTowerInfo(Tower1 tower)
+    public void ShowTowerInfo(TowerBase tower)
     {
         if (gameManager.isUIShowing) return;
         else gameManager.isUIShowing = true;
@@ -80,10 +80,7 @@ public class TowerUIManager : MonoBehaviour
         {
             upgradePrice = currentTower.GetPrice();
             PriceText.text = "價格: " + upgradePrice + "$";
-            infoText.text = $"等級: {currentTower.GetLevel()}\n" +
-                            $"攻擊傷害: {currentTower.GetDamage()}\n" +
-                            $"攻擊速度: {currentTower.GetAttackSpeed()}\n" +
-                            $"攻擊範圍: {currentTower.GetAttackRange()}";
+            infoText.text = currentTower.GetTowerInfos();
         }
         if (currentTower.GetLevel() >= currentTower.GetMaxLevel())
         {
