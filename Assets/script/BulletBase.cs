@@ -26,9 +26,8 @@ public class BulletBase : MonoBehaviour
         // 更新旋轉
         UpdateRotation();
 
-        // 移動，使用 Time.unscaledDeltaTime 並考慮 timeScale
         Vector3 direction = (target.transform.position - transform.position).normalized;
-        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale;
+        float effectiveDeltaTime = Time.unscaledDeltaTime * Time.timeScale; //DeltaTime
         transform.position += direction * speed * effectiveDeltaTime;
 
         // 檢查是否接近目標

@@ -37,7 +37,7 @@ public class GoldTowerManager : MonoBehaviour
         if (spawner != null && spawner.IsSpawning())
         {
             timer += Time.unscaledDeltaTime * Time.timeScale;
-            while (timer >= 2f) // 使用 while 處理可能的多重觸發
+            while (timer >= 2f) 
             {
                 foreach (var tower in towers)
                 {
@@ -57,7 +57,7 @@ public class GoldTowerManager : MonoBehaviour
                         }
                     }
                 }
-                timer -= 2f; // 減去一個週期
+                timer -= 2f; 
             }
         }
     }

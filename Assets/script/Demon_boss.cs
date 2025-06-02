@@ -11,7 +11,7 @@ public class Demon_boss : BaseEnemy
         {
             currentHealth += 750;
             targetHealth = currentHealth;
-            timer -= 3f; 
+            timer -= 5f; 
         }
         base.Update();
     }

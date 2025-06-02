@@ -158,11 +158,11 @@ public class TowerBase : MonoBehaviour
 
             cost += upgradePrice;
             UpdatePrice();
-            Debug.Log($"{gameObject.name} 升級為 Lv{level}，傷害: {damage}，攻速: {attackSpeed}，範圍: {attackRange}");
+            //Debug.Log($"{gameObject.name} 升級為 Lv{level}，傷害: {damage}，攻速: {attackSpeed}，範圍: {attackRange}");
         }
         else
         {
-            Debug.Log($"{gameObject.name} 已達最大等級 Lv{level}");
+            //Debug.Log($"{gameObject.name} 已達最大等級 Lv{level}");
         }
     }
 

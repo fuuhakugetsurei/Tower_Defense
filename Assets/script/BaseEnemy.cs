@@ -110,11 +110,11 @@ public abstract class BaseEnemy : MonoBehaviour
         if (healthBar == null) return;
 
         // 平滑插值血條值
-        float lerpSpeed = 10f; // 控制變化速度（越大越快，相當於 0.1 秒完成）
-        displayedHealth = Mathf.Lerp(displayedHealth, targetHealth, lerpSpeed * Time.deltaTime);
+        float lerpSpeed = 10f; // 控制變化速度
+        displayedHealth = Mathf.Lerp(displayedHealth, targetHealth, lerpSpeed * Time.unscaledDeltaTime * Time.timeScale);
         healthBar.value = displayedHealth;
 
-        // 如果血量已達目標值，確保精確
+        
         if (Mathf.Abs(displayedHealth - targetHealth) < 0.01f)
         {
             displayedHealth = targetHealth;
@@ -154,7 +154,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public float GetCurrentHealth() => currentHealth;
 
-    private float slowEndTime = 0f;  // 新增：記錄減速效果結束時間
+    private float slowEndTime = 0f;  // 記錄減速效果結束時間
     
     public void ApplySlow(float slowAmount, float duration)
     {

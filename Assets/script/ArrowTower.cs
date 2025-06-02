@@ -48,13 +48,13 @@ public class ArrowTower : TowerBase
 
                     bulletsFired++;
                     attackCooldown = 1f / attackSpeed;
-                    Debug.Log($"{gameObject.name} 發射子彈 {bulletsFired}/{requiredArrows} 攻擊 {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}");
+                    //Debug.Log($"{gameObject.name} 發射子彈 {bulletsFired}/{requiredArrows} 攻擊 {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}");
                 }
                 else
                 {
                     requiredArrows = Mathf.CeilToInt(enemy.GetCurrentHealth() / damage);
                     bulletsFired = 0;
-                    Debug.Log($"{gameObject.name} 已射 {bulletsFired}/{requiredArrows} 箭，重新計算需 {requiredArrows} 箭");
+                    //Debug.Log($"{gameObject.name} 已射 {bulletsFired}/{requiredArrows} 箭，重新計算需 {requiredArrows} 箭");
                 }
             }
         }

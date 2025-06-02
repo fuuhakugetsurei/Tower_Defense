@@ -23,33 +23,17 @@ public class BlockEnemy : BaseEnemy
     public override void TakeDamage(float damage)
     {
         if (!isInitialized) return;
-        probability = (100 - luckyManager.GetLucky()) / 2f;
-        probability += (damage * 0.1f);
-        if (probability <= 70f)
+        probability = Mathf.Min(((100 - luckyManager.GetLucky()) / 2f) + (damage * 0.1f), 70f);
+
+        if (IsBlock(probability))
         {
-            if (IsBlock(probability))
-            {
-                Debug.Log("格檔 triggered, calling ShowBlockText");
-                ShowBlockText(); // 顯示格檔文字
-            }
-            else
-            {
-                currentHealth -= damage;
-                targetHealth = currentHealth; // 更新目標血量
-            }
+            //Debug.Log("格檔 triggered, calling ShowBlockText");
+            ShowBlockText(); // 顯示格檔文字
         }
         else
         {
-            if (IsBlock(70f))
-            {
-                Debug.Log("格檔 triggered, calling ShowBlockText");
-                ShowBlockText(); // 顯示格檔文字
-            }
-            else
-            {
-                currentHealth -= damage;
-                targetHealth = currentHealth; // 更新目標血量
-            }
+            currentHealth -= damage;
+            targetHealth = currentHealth; // 更新目標血量
         }
         if (currentHealth <= 0)
         {

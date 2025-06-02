@@ -21,7 +21,7 @@ public class CrossbowTower : TowerBase
 
     public override string GetTowerInfos()
     {
-        return       $"等級: {GetLevel()}\n" +
+        return $"等級: {GetLevel()}\n" +
                      $"攻擊傷害: {GetDamage()}\n" +
                      $"攻擊範圍: {GetAttackRange()}\n" +
                      $"每段攻擊箭數: {requiredArrows}\n" +
@@ -36,7 +36,7 @@ public class CrossbowTower : TowerBase
         if (currentTarget != null)
         {
             BaseEnemy enemy = currentTarget.GetComponent<BaseEnemy>();
-            Debug.Log($"[{Time.frameCount}] {gameObject.name} 準備攻擊新目標 {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}");
+            //Debug.Log($"[{Time.frameCount}] {gameObject.name} 準備攻擊新目標 {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}");
         }
     }
 
@@ -45,7 +45,7 @@ public class CrossbowTower : TowerBase
         bulletsFired = 0;
         state = TowerState.Idle;
         lastFireTime = 0f;
-        Debug.Log($"[{Time.frameCount}] {gameObject.name} 重置目標狀態，進入 Idle");
+        //Debug.Log($"[{Time.frameCount}] {gameObject.name} 重置目標狀態，進入 Idle");
     }
 
     protected override void Update()
@@ -57,55 +57,50 @@ public class CrossbowTower : TowerBase
         // 更新冷卻
         if (state == TowerState.Cooling)
         {
-            attackCooldown -= Time.deltaTime;
+            attackCooldown -= Time.unscaledDeltaTime * Time.timeScale;
             if (attackCooldown <= 0)
             {
                 state = TowerState.Idle;
-                Debug.Log($"[{Time.frameCount}] {gameObject.name} 冷卻結束，進入 Idle 狀態");
+                //Debug.Log($"[{Time.frameCount}] {gameObject.name} 冷卻結束，進入 Idle 狀態");
             }
-            return; // <--- 冷卻時直接結束，不做任何事
+            return; //冷卻時直接結束
         }
 
-        // 只有 Idle 狀態才會尋找目標與攻擊
+        // Idle 狀態才會尋找目標與攻擊
         if (state == TowerState.Idle)
-    {
-    // 檢查當前目標是否有效
-    if (currentTarget != null)
-    {
-        BaseEnemy enemy = currentTarget.GetComponent<BaseEnemy>();
-        // 只在自己攻擊的敵人死亡時才重設狀態
-        if (enemy == null || enemy.GetCurrentHealth() <= 0 ||
-            Vector2.Distance(transform.position, currentTarget.transform.position) > attackRange)
         {
-            Debug.Log($"[{Time.frameCount}] {gameObject.name} 目標 {currentTarget?.name} 無效（血量: {enemy?.GetCurrentHealth()}, 距離: {Vector2.Distance(transform.position, currentTarget.transform.position)}), 原狀態: {state}");
-            currentTarget = null;
-            // 不要直接呼叫 ResetTargetState()，只要把 currentTarget 設為 null，讓下方自動尋找新目標
-        }
-    }
+            // 檢查當前目標是否有效
+            if (currentTarget != null)
+            {
+                BaseEnemy enemy = currentTarget.GetComponent<BaseEnemy>();
+                // 只在自己攻擊的敵人死亡時才重設狀態
+                if (enemy == null || enemy.GetCurrentHealth() <= 0 ||
+                    Vector2.Distance(transform.position, currentTarget.transform.position) > attackRange)
+                {
+                    currentTarget = null;
+                }
+            }
 
-    // 尋找新目標
-    if (currentTarget == null)
-    {
-        FindTarget();
-        // 這裡可以加一行：如果找到新目標，直接 Attack()
-        if (currentTarget != null)
-        {
-            Attack();
+            // 尋找新目標
+            if (currentTarget == null)
+            {
+                FindTarget();
+                if (currentTarget != null)
+                {
+                    Attack();
+                }
+            }
         }
-    }
-    // 不要再 Attack()，避免重複攻擊
-}
         else if (state == TowerState.Bursting)
         {
             // 先檢查目標是否還有效
-            if (currentTarget == null || 
+            if (currentTarget == null ||
                 currentTarget.GetComponent<BaseEnemy>()?.GetCurrentHealth() <= 0)
             {
                 state = TowerState.Cooling;
                 attackCooldown = burstCooldown;
                 currentTarget = null;
                 bulletsFired = requiredArrows;
-                Debug.Log($"[{Time.frameCount}] {gameObject.name} Bursting 中目標消失，進入冷卻");
                 return;
             }
 
@@ -125,9 +120,8 @@ public class CrossbowTower : TowerBase
         {
             state = TowerState.Bursting;
             bulletsFired = 0;
-            lastFireTime = Time.time - burstInterval; // 讓第一發能立即射出
-            Debug.Log($"[{Time.frameCount}] {gameObject.name} 開始快速射擊，目標: {currentTarget.name}");
-            // 不要直接呼叫 FireSingleBullet()，讓 Update 控制發射
+            lastFireTime = Time.time - burstInterval; 
+            // Debug.Log($"[{Time.frameCount}] {gameObject.name} 開始快速射擊，目標: {currentTarget.name}");
         }
     }
 
@@ -145,13 +139,13 @@ public class CrossbowTower : TowerBase
 
             bulletsFired++;
             lastFireTime = Time.time; // 記錄射擊時間
-            Debug.Log($"[{Time.frameCount}] {gameObject.name} 發射第 {bulletsFired}/{requiredArrows} 箭，目標: {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}，Time.time: {Time.time}, FPS: {1f / Time.deltaTime}");
+            //Debug.Log($"[{Time.frameCount}] {gameObject.name} 發射第 {bulletsFired}/{requiredArrows} 箭，目標: {currentTarget.name}，目標血量: {enemy.GetCurrentHealth()}，Time.time: {Time.time}, FPS: {1f / Time.deltaTime}");
 
             if (bulletsFired >= requiredArrows)
             {
                 state = TowerState.Cooling;
                 attackCooldown = burstCooldown;
-                Debug.Log($"[{Time.frameCount}] {gameObject.name} 完成 {requiredArrows} 箭射擊，進入 {burstCooldown} 秒冷卻");
+                //  Debug.Log($"[{Time.frameCount}] {gameObject.name} 完成 {requiredArrows} 箭射擊，進入 {burstCooldown} 秒冷卻");
             }
         }
         else
@@ -178,8 +172,7 @@ public class CrossbowTower : TowerBase
             attackCooldown = burstCooldown;
             currentTarget = null;
             bulletsFired = requiredArrows; // 阻止繼續射箭
-            Debug.Log($"[{Time.frameCount}] {gameObject.name} 目標在快速射擊中死亡，進入 {burstCooldown} 秒冷卻");
-            // 不要呼叫 ResetTargetState()，避免直接回到 Idle
+            //Debug.Log($"[{Time.frameCount}] {gameObject.name} 目標在快速射擊中死亡，進入 {burstCooldown} 秒冷卻");
         }
     }
 

@@ -44,7 +44,6 @@ public class SpeedBoostEnemy : BaseEnemy
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemyObj in enemies)
         {
-            if (enemyObj.CompareTag("SpeedUpEnemy")) continue; // 跳過自己
             BaseEnemy enemy = enemyObj.GetComponent<BaseEnemy>();
             if (enemy != null)
             {
