@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16908f5e82469d4abc6963d0ea9e461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.8
-  maxHealth: 3000
+  speed: 0.7
+  maxHealth: 2500
   coinDrop: 200
   ATK: 3000
   gameSettings: {fileID: 11400000, guid: 3bddbb77ce6182f4582cb6d69b52bd31, type: 2}

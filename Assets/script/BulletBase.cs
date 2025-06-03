@@ -3,7 +3,7 @@ using System;
 
 public class BulletBase : MonoBehaviour
 {
-    [SerializeField] protected float speed = 5f; // 子彈速度
+    [SerializeField] protected float speed = 1f; // 子彈速度
     public float damage = 10f; // 傷害值
     protected GameObject target; // 目標敵人
     public Action onHitOrDestroy; // 回調事件，通知塔子彈命中或銷毀
